@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { LegalPage } from './entities/legal-pages.entity';
-import { CreateLegalPageDto } from './dto/create-legal-pages.dto';
-import { UpdateLegalPageDto } from './dto/update-legal-pages.dto';
+import { Repository } from 'typeorm'; 
+import { LegalPage } from './entities/pages.entity';
+import { CreateLegalPageDto } from './dto/create-pages.dto';
+import { UpdateLegalPageDto } from './dto/update-pages.dto';
 
 @Injectable()
 export class LegalPagesService {

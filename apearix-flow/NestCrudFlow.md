@@ -1,0 +1,55 @@
+COMMAND:
+nest g resource blogs --no-spec
+
+• nest → NestJS CLI command
+• g → generate ka short form
+• resource → Complete CRUD resource generate karta hai
+• blogs → Resource/module ka name
+• --no-spec → Test files (.spec.ts) generate nahi karega
+
+Result:
+• blogs.module.ts
+• blogs.controller.ts
+• blogs.service.ts
+• blogs.entity.ts
+• dto/create-blogs.dto.ts
+• dto/update-blogs.dto.ts
+
+Short mein:
+nest g resource blogs --no-spec
+→ Blogs ka complete CRUD skeleton automatically create karo, bina test files ke.
+
+➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤
+
+Step 1. Module Create
+• Create a NestJS module for the feature.
+• Example: blogs.module.ts
+
+Step 2. Entity Create
+• Define database table structure and fields.
+• Example: blogs.entity.ts
+
+Step 3. DTO Create
+• Create DTOs for request data validation.
+• create-blogs.dto.ts → Create
+• update-blogs.dto.ts → Update
+
+Step 4. Service Create
+• Write business logic and database operations.
+• Example: blogs.service.ts
+
+Step 5. Controller Create
+• Define API endpoints and connect them with service methods.
+• Example: blogs.controller.ts
+
+Step 6. CRUD Flow
+• POST → Create → Controller → DTO → Service → Entity → Database
+• GET → Read → Controller → Service → Database
+• PATCH → Update → Controller → DTO → Service → Entity → Database
+• DELETE → Delete → Controller → Service → Database
+
+Step 7. Module Connect
+• Register Controller + Service + Entity/Repository inside blogs.module.ts.
+
+Step 8. Final Flow
+• API Request → Controller → DTO Validation → Service → Database → Response

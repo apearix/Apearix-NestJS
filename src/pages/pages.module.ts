@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LegalPagesService } from './legal-pages.service';
-import { LegalPagesController } from './legal-pages.controller';
-import { LegalPage } from './entities/legal-pages.entity';
+import { LegalPagesService } from './pages.service';
+import { LegalPagesController } from './pages.controller';
+import { LegalPage } from './entities/pages.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([LegalPage])],

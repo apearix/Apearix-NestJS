@@ -52,7 +52,7 @@ Apearix NestJS API Project Plan
 ★ Step 6. Admin Dashboard Module
 ◦ Overall Management Data
   ✓ Data counts, recent activities, overall website status
-  → GET /api/v1/admin/dashboard/stats
+  → GET /api/v1/admin/dashboard
 
 ◉ Design & Security Guidelines ⚠ 
 ▪ APIs will follow strict RESTful standards and be easy to consume by Apearix NextJS

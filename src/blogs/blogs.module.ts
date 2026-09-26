@@ -9,4 +9,5 @@ import { Blog } from './entities/blogs.entity';
   controllers: [BlogsController],
   providers: [BlogsService],
 })
+
 export class BlogsModule {}

@@ -11,7 +11,7 @@ import { CategoryTypesModule } from './category-types/category-types.module';
 import { ServicesModule } from './services/services.module';
 import { BlogsModule } from './blogs/blogs.module';
 import { FaqsModule } from './faqs/faqs.module';
-import { LegalPagesModule } from './legal-pages/legal-pages.module';
+import { LegalPagesModule } from './pages/pages.module';
 import { SettingsModule } from './settings/settings.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 
