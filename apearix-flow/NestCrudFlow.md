@@ -53,3 +53,37 @@ Step 7. Module Connect
 
 Step 8. Final Flow
 • API Request → Controller → DTO Validation → Service → Database → Response
+
+
+## IMPLEMENTED CRUDs & APIs (Current Status)
+
+### 1. Users CRUD (Complete)
+- **Path**: /users 
+- **Entity**: User (first_name, last_name, email, password (hashed), avatar, phone, role_id, status)
+- **Endpoints**: 
+  - POST /users (Create user + relation with Role)
+  - GET /users (Get all users)
+  - GET /users/:id (Get user by ID)
+  - PATCH /users/:id (Update profile - Admin email change locked)
+  - DELETE /users/:id (Soft delete user)
+- **Swagger / Postman Configured**: Yes (Tags, Operation IDs, DTO Schema)
+
+### 2. Roles CRUD (Complete)
+- **Path**: /roles 
+- **Entity**: Role (name, slug, description)
+- **Endpoints**: 
+  - POST /roles (Create role)
+  - GET /roles (Get all roles)
+  - GET /roles/:id (Get role by ID)
+  - PATCH /roles/:id (Update role)
+  - DELETE /roles/:id (Soft delete role)
+- **Swagger / Postman Configured**: Yes
+
+### 3. Admin Auth (MVP / Partial DB)
+- **Path**: /api/v1/admin/auth 
+- **Endpoints**: 
+  - POST .../login (Returns generated JWT token + full authUser object with avatar, name, role)
+  - POST .../logout (Logout success message)
+  - POST .../forgot-password (Forgot password link logic)
+  - POST .../change-password (Change password logic)
+- **Swagger / Postman Configured**: Yes (LoginAdminDto, ForgotPasswordDto, etc.)

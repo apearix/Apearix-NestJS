@@ -12,7 +12,15 @@ export class AdminAuthService {
     if (email === 'admin@apearix.com' && password === 'admin123') {
       
       // Generating a REAL JWT Token
-      const payload = { email: email, role: 'admin' };
+      const payload = { 
+        email: email, 
+        role: 'admin', 
+        first_name: 'Dharmendra', 
+        last_name: 'Barman',
+        name: 'Dharmendra Barman',
+        full_name: 'Dharmendra Barman',
+        avatar: 'https://ui-avatars.com/api/?name=Dharmendra+Barman&background=0D8ABC&color=fff'
+      };
       const realToken = this.jwtService.sign(payload);
 
       return {

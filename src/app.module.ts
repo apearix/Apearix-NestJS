@@ -14,6 +14,8 @@ import { FaqsModule } from './faqs/faqs.module';
 import { LegalPagesModule } from './pages/pages.module';
 import { SettingsModule } from './settings/settings.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RolesModule } from './roles/roles.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -44,6 +46,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     LegalPagesModule,
     SettingsModule,
     DashboardModule,
+    RolesModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
