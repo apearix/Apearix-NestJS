@@ -1,23 +1,27 @@
 COMMAND:
+
 nest g resource blogs --no-spec
 
 • nest → NestJS CLI command
 • g → generate ka short form
-• resource → Complete CRUD resource generate karta hai
+• resource → Resource structure generate karta hai
 • blogs → Resource/module ka name
 • --no-spec → Test files (.spec.ts) generate nahi karega
 
-Result:
+Result commonly includes:
+
 • blogs.module.ts
 • blogs.controller.ts
 • blogs.service.ts
-• blogs.entity.ts
-• dto/create-blogs.dto.ts
-• dto/update-blogs.dto.ts
+• dto/create-blog.dto.ts
+• dto/update-blog.dto.ts
+• blogs.entity.ts → ORM configuration/selection ke according
 
 Short mein:
+
 nest g resource blogs --no-spec
-→ Blogs ka complete CRUD skeleton automatically create karo, bina test files ke.
+
+→ Blogs ka CRUD resource skeleton automatically create karo, bina test files ke.
 
 ➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤➤
 
@@ -53,3 +57,37 @@ Step 7. Module Connect
 
 Step 8. Final Flow
 • API Request → Controller → DTO Validation → Service → Database → Response
+
+
+## IMPLEMENTED CRUDs & APIs (Current Status)
+
+### 1. Users CRUD (Complete)
+- **Path**: /users 
+- **Entity**: User (first_name, last_name, email, password (hashed), avatar, phone, role_id, status)
+- **Endpoints**: 
+  - POST /users (Create user + relation with Role)
+  - GET /users (Get all users)
+  - GET /users/:id (Get user by ID)
+  - PATCH /users/:id (Update profile - Admin email change locked)
+  - DELETE /users/:id (Soft delete user)
+- **Swagger / Postman Configured**: Yes (Tags, Operation IDs, DTO Schema)
+
+### 2. Roles CRUD (Complete)
+- **Path**: /roles 
+- **Entity**: Role (name, slug, description)
+- **Endpoints**: 
+  - POST /roles (Create role)
+  - GET /roles (Get all roles)
+  - GET /roles/:id (Get role by ID)
+  - PATCH /roles/:id (Update role)
+  - DELETE /roles/:id (Soft delete role)
+- **Swagger / Postman Configured**: Yes
+
+### 3. Admin Auth (MVP / Partial DB)
+- **Path**: /api/v1/admin/auth 
+- **Endpoints**: 
+  - POST .../login (Returns generated JWT token + full authUser object with avatar, name, role)
+  - POST .../logout (Logout success message)
+  - POST .../forgot-password (Forgot password link logic)
+  - POST .../change-password (Change password logic)
+- **Swagger / Postman Configured**: Yes (LoginAdminDto, ForgotPasswordDto, etc.)
