@@ -186,7 +186,7 @@ Understand and use when appropriate:
 • Foreign Keys
 • UUID
 • Integer / BigInt
-• Varchar
+• Var char
 • Text
 • Boolean
 • Timestamp
