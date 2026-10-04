@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -54,10 +54,14 @@ export class UsersService {
         email: true,
         phone: true,
         avatar: true,
+        dob: true,
         status: true,
+        last_login_at: true,
         created_at: true,
+        updated_at: true,
       },
       relations: { role: true },
+      order: { created_at: 'DESC' },
     });
   }
 
@@ -92,7 +96,7 @@ export class UsersService {
 
     const { role_id, password, ...updateData } = updateUserDto;
     
-    if (password) {
+    if (password && password.trim() !== '') {
       user.password = await bcrypt.hash(password, 10);
     }
 
@@ -116,5 +120,57 @@ export class UsersService {
     const user = await this.findOne(id); // ensures it exists
     await this.userRepository.softDelete(id);
     return { success: true, message: 'User deleted successfully' };
+  }
+
+  async bulkStatus(ids: string[], status: string) {
+    if (!ids || ids.length === 0) return { success: true, count: 0 };
+    const users = await this.userRepository.findBy({ id: In(ids) });
+    for (const u of users) {
+      u.status = status as any;
+    }
+    await this.userRepository.save(users);
+    return { success: true, count: users.length };
+  }
+
+  async bulkDelete(ids: string[]) {
+    if (!ids || ids.length === 0) return { success: true, count: 0 };
+    await this.userRepository.softDelete(ids);
+    return { success: true, count: ids.length };
+  }
+
+  async bulkImport(items: any[]) {
+    const defaultRole = await this.roleRepository.findOne({ where: {} });
+    const created: any[] = [];
+    for (const item of items) {
+      const roleId = item.role_id || (item.role ? item.role.id : null);
+      let role = roleId ? await this.roleRepository.findOne({ where: { id: roleId } }) : null;
+      if (!role && item.role?.name) {
+        role = await this.roleRepository.findOne({ where: { name: item.role.name } });
+      }
+      if (!role) {
+        role = defaultRole;
+      }
+
+      const existingUser = await this.userRepository.findOne({ where: { email: item.email } });
+      if (existingUser) continue;
+
+      const rawPassword = item.password || 'Password@123';
+      const hashedPassword = await bcrypt.hash(rawPassword, 10);
+
+      const newUser = this.userRepository.create({
+        first_name: item.first_name,
+        last_name: item.last_name || '',
+        email: item.email,
+        phone: item.phone || null,
+        avatar: item.avatar || null,
+        dob: item.dob || null,
+        status: item.status || 'active',
+        password: hashedPassword,
+        role: role || undefined,
+      });
+      const saved = await this.userRepository.save(newUser);
+      created.push(saved);
+    }
+    return { success: true, count: created.length, items: created };
   }
 }
