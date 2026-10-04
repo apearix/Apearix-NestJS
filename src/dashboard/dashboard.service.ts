@@ -16,7 +16,7 @@ export class DashboardService {
     @InjectRepository(Product) private productRepo: Repository<Product>,
     @InjectRepository(ServiceEntity) private serviceRepo: Repository<ServiceEntity>,
     @InjectRepository(Faq) private faqRepo: Repository<Faq>,
-  ) {}
+  ) { }
 
   async getDashboardOverview() {
     const [totalBlogs, totalCategories, totalProducts, totalServices, totalFaqs] = await Promise.all([

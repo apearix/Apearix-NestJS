@@ -10,7 +10,14 @@ export class CreateFaqDto {
   answer: string;
 
   @IsOptional()
-  @IsBoolean()
-  isActive?: boolean;
+  @IsString()
+  category?: string;
 
+  @IsOptional()
+  @IsNumber()
+  order?: number;
+
+  @IsOptional()
+  @IsBoolean()
+  is_active?: boolean;
 }

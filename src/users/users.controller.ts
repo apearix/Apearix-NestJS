@@ -19,7 +19,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Users')
-@Controller(['users', 'api/v1/admin/users'])
+@Controller(['admin/users', 'users', 'api/v1/admin/users'])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -57,7 +57,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'create-user', operationId: 'create-user' })
-  @Post()
+  @Post(['', 'create'])
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
@@ -81,7 +81,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: 'bulk-import-users', operationId: 'bulk-import-users' })
-  @Post('bulk-import')
+  @Post(['bulk-import', 'import'])
   bulkImport(@Body() body: any) {
     let items: any[] = [];
     if (Array.isArray(body)) {

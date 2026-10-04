@@ -26,7 +26,7 @@ export class Blog {
   title: string;
 
   @Index()
-  @Column({ length: 220, unique: true })
+  @Column({ length: 220, unique: true, nullable: true })
   slug: string;
 
   @Column({ default: false })

@@ -17,4 +17,4 @@ import { Faq } from '../faqs/entities/faqs.entity';
   controllers: [DashboardController],
   providers: [DashboardService]
 })
-export class DashboardModule {}
+export class DashboardModule { }

@@ -21,7 +21,7 @@ export class LegalPage {
   @Column({ length: 150 })
   title: string;
 
-  @Column({ unique: true, length: 150 })
+  @Column({ unique: true, length: 150, nullable: true })
   slug: string;
 
   // MediumText/LongText or Text depending on DB, HTML content can be large

@@ -43,8 +43,8 @@ export class CreateUserDto {
   @IsOptional()
   status?: UserStatus;
 
-  @ApiProperty({ example: 'd3b07384-d113-4a67-b8ab-54157d627c94' })
-  @IsUUID()
-  @IsNotEmpty()
-  role_id: string;
+  @ApiPropertyOptional({ example: 'd3b07384-d113-4a67-b8ab-54157d627c94' })
+  @IsString()
+  @IsOptional()
+  role_id?: string;
 }

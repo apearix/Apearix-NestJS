@@ -5,16 +5,39 @@ export class CreateCategoryDto {
   @IsString()
   name: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  slug: string;
+  slug?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
+
+  @IsOptional()
+  @IsString()
+  icon_or_image?: string;
+
+  @IsOptional()
+  @IsNumber()
+  order?: number;
 
   @IsOptional()
   @IsBoolean()
-  isActive?: boolean;
+  is_active?: boolean;
 
+  @IsOptional()
+  @IsString()
+  category_type_id?: string;
+
+  @IsOptional()
+  @IsString()
+  parent_id?: string;
+
+  @IsOptional()
+  @IsString()
+  meta_title?: string;
+
+  @IsOptional()
+  @IsString()
+  meta_description?: string;
 }
