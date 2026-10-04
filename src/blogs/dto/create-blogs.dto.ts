@@ -8,17 +8,20 @@ import {
   MaxLength,
   Matches,
   IsArray,
+  IsDateString,
+  IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { BlogStatus } from '../entities/blogs.entity';
 
 export class PublishingDto {
   @IsOptional()
-  @IsEnum(['draft', 'published', 'archived'])
-  status?: string;
+  @IsEnum(BlogStatus)
+  status?: BlogStatus;
 
-  @IsNotEmpty({ message: 'Author select karein' })
+  @IsOptional()
   @IsString()
-  author_id: string;
+  author_id?: string;
 
   @IsOptional()
   @IsString()
@@ -73,6 +76,33 @@ export class CreateBlogDto {
   @IsOptional()
   @IsString()
   featured_image?: string;
+
+  @IsOptional()
+  @IsEnum(BlogStatus)
+  status?: BlogStatus;
+
+  @IsOptional()
+  @IsUUID('4', { message: 'author_id valid UUID honi chahiye' })
+  author_id?: string;
+
+  @IsOptional()
+  @IsDateString()
+  published_at?: string | null;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(60, { message: 'Meta title 60 characters se chota hona chahiye' })
+  meta_title?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(160, { message: 'Meta description 160 characters se chota hona chahiye' })
+  meta_description?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(500, { message: 'Canonical URL 500 characters se zyada nahi ho sakta' })
+  canonical_url?: string;
 
   @IsOptional()
   @ValidateNested()

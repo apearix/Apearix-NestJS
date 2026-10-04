@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Blog } from './entities/blogs.entity';
+import { Blog, BlogStatus } from './entities/blogs.entity';
 import { CreateBlogDto } from './dto/create-blogs.dto';
 import { UpdateBlogDto } from './dto/update-blogs.dto';
 
@@ -10,95 +10,107 @@ export class BlogsService {
   constructor(@InjectRepository(Blog) private readonly repo: Repository<Blog>) {}
 
   async create(dto: CreateBlogDto) {
+    const status = (dto.status || dto.publishing?.status || BlogStatus.DRAFT) as BlogStatus;
+    const author_id = dto.author_id || dto.publishing?.author_id;
+    const rawPublishedAt = dto.published_at ?? dto.publishing?.published_at;
+    const published_at = rawPublishedAt
+      ? new Date(rawPublishedAt)
+      : status === BlogStatus.PUBLISHED
+      ? new Date()
+      : null;
+
     const blogData = this.repo.create({
-      ...dto,
+      title: dto.title,
+      slug: dto.slug,
       is_manual_slug: dto.is_manual_slug ?? false,
       excerpt: dto.excerpt ?? '',
+      content: dto.content,
       featured_image: dto.featured_image ?? '',
-      publishing: {
-        status: dto.publishing?.status || 'draft',
-        author_id: dto.publishing?.author_id || '1',
-        published_at: dto.publishing?.published_at || null,
-      },
-      seo: {
-        meta_title: dto.seo?.meta_title || '',
-        meta_description: dto.seo?.meta_description || '',
-        canonical_url: dto.seo?.canonical_url || '',
-      },
+      status,
+      author_id: author_id || undefined,
+      published_at,
+      meta_title: dto.meta_title ?? dto.seo?.meta_title ?? '',
+      meta_description: dto.meta_description ?? dto.seo?.meta_description ?? '',
+      canonical_url: dto.canonical_url ?? dto.seo?.canonical_url ?? '',
     });
     return await this.repo.save(blogData);
   }
 
   async findAll() {
-    return await this.repo.find({ order: { createdAt: 'DESC' } });
+    return await this.repo.find({
+      relations: { author: true },
+      order: { created_at: 'DESC' },
+    });
   }
 
-  async findOne(id: number) {
-    const item = await this.repo.findOne({ where: { id } });
+  async findOne(id: string) {
+    const item = await this.repo.findOne({
+      where: { id },
+      relations: { author: true },
+    });
     if (!item) throw new NotFoundException('Blog not found');
     return item;
   }
 
-  async update(id: number, dto: UpdateBlogDto) {
+  async update(id: string, dto: UpdateBlogDto) {
     const existing = await this.findOne(id);
 
-    const newPublishing = dto.publishing
-      ? {
-          status: dto.publishing.status ?? existing.publishing?.status ?? 'draft',
-          author_id: dto.publishing.author_id ?? existing.publishing?.author_id ?? '1',
-          published_at:
-            dto.publishing.status === 'published'
-              ? (dto.publishing.published_at || existing.publishing?.published_at || new Date().toISOString())
-              : (dto.publishing.published_at !== undefined ? dto.publishing.published_at : existing.publishing?.published_at || null),
-        }
-      : existing.publishing;
+    const status = (dto.status || dto.publishing?.status || existing.status) as BlogStatus;
+    const author_id = dto.author_id || dto.publishing?.author_id || existing.author_id;
 
-    const newSeo = dto.seo
-      ? {
-          meta_title: dto.seo.meta_title ?? existing.seo?.meta_title ?? '',
-          meta_description: dto.seo.meta_description ?? existing.seo?.meta_description ?? '',
-          canonical_url: dto.seo.canonical_url ?? existing.seo?.canonical_url ?? '',
-        }
-      : existing.seo;
+    let published_at = existing.published_at;
+    const rawPublishedAt = dto.published_at ?? dto.publishing?.published_at;
+    if (rawPublishedAt !== undefined) {
+      published_at = rawPublishedAt ? new Date(rawPublishedAt) : null;
+    } else if (status === BlogStatus.PUBLISHED && !existing.published_at) {
+      published_at = new Date();
+    }
 
     const updatedData = this.repo.merge(existing, {
-      ...dto,
-      publishing: newPublishing,
-      seo: newSeo,
+      title: dto.title ?? existing.title,
+      slug: dto.slug ?? existing.slug,
+      is_manual_slug: dto.is_manual_slug ?? existing.is_manual_slug,
+      excerpt: dto.excerpt ?? existing.excerpt,
+      content: dto.content ?? existing.content,
+      featured_image: dto.featured_image ?? existing.featured_image,
+      status,
+      author_id,
+      published_at,
+      meta_title: dto.meta_title ?? dto.seo?.meta_title ?? existing.meta_title,
+      meta_description: dto.meta_description ?? dto.seo?.meta_description ?? existing.meta_description,
+      canonical_url: dto.canonical_url ?? dto.seo?.canonical_url ?? existing.canonical_url,
     });
 
     return await this.repo.save(updatedData);
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const item = await this.findOne(id);
-    await this.repo.remove(item);
+    await this.repo.softRemove(item);
     return { success: true, message: 'Deleted successfully' };
   }
 
-  async bulkStatus(ids: (number | string)[], status: string) {
-    const numericIds = ids.map((id) => Number(id)).filter((id) => !isNaN(id));
-    if (numericIds.length === 0) return { success: true, count: 0 };
-    const items = await this.repo.findBy({ id: In(numericIds) });
+  async bulkStatus(ids: string[], status: string) {
+    if (!ids || ids.length === 0) return { success: true, count: 0 };
+    const validStatus = Object.values(BlogStatus).includes(status as BlogStatus)
+      ? (status as BlogStatus)
+      : BlogStatus.DRAFT;
+
+    const items = await this.repo.findBy({ id: In(ids) });
     for (const item of items) {
-      item.publishing = {
-        author_id: item.publishing?.author_id || '1',
-        status,
-        published_at:
-          status === 'published'
-            ? (item.publishing?.published_at || new Date().toISOString())
-            : (item.publishing?.published_at || null),
-      };
+      item.status = validStatus;
+      if (validStatus === BlogStatus.PUBLISHED && !item.published_at) {
+        item.published_at = new Date();
+      }
       await this.repo.save(item);
     }
     return { success: true, count: items.length };
   }
 
-  async bulkDelete(ids: (number | string)[]) {
-    const numericIds = ids.map((id) => Number(id)).filter((id) => !isNaN(id));
-    if (numericIds.length === 0) return { success: true, count: 0 };
-    await this.repo.delete(numericIds);
-    return { success: true, count: numericIds.length };
+  async bulkDelete(ids: string[]) {
+    if (!ids || ids.length === 0) return { success: true, count: 0 };
+    await this.repo.softDelete(ids);
+    return { success: true, count: ids.length };
   }
 
   async bulkImport(rawItems: any[]) {
@@ -133,15 +145,19 @@ export class BlogsService {
       }
       existingSlugs.add(uniqueSlug);
 
-      const status = item.publishing?.status || item.status || 'draft';
-      const validStatus = ['draft', 'published', 'archived'].includes(status) ? status : 'draft';
+      const statusStr = item.status || item.publishing?.status || 'draft';
+      const validStatus = Object.values(BlogStatus).includes(statusStr as BlogStatus)
+        ? (statusStr as BlogStatus)
+        : BlogStatus.DRAFT;
 
-      const authorId = (item.publishing?.author_id || item.author_id || item.author || '1').toString();
+      const authorId = (item.author_id || item.publishing?.author_id || item.author || '').toString();
 
-      const publishedAt =
-        item.publishing?.published_at ||
-        item.published_at ||
-        (validStatus === 'published' ? new Date().toISOString() : null);
+      const rawPubAt = item.published_at || item.publishing?.published_at;
+      const publishedAt = rawPubAt
+        ? new Date(rawPubAt)
+        : validStatus === BlogStatus.PUBLISHED
+        ? new Date()
+        : null;
 
       const entity = this.repo.create({
         title,
@@ -150,16 +166,12 @@ export class BlogsService {
         excerpt: (item.excerpt || '').toString(),
         content: (item.content || item.description || title).toString(),
         featured_image: (item.featured_image || item.image || '').toString(),
-        publishing: {
-          status: validStatus,
-          author_id: authorId,
-          published_at: publishedAt,
-        },
-        seo: {
-          meta_title: (item.seo?.meta_title || item.meta_title || title).toString().slice(0, 60),
-          meta_description: (item.seo?.meta_description || item.meta_description || item.excerpt || '').toString().slice(0, 160),
-          canonical_url: (item.seo?.canonical_url || item.canonical_url || '').toString().slice(0, 500),
-        },
+        status: validStatus,
+        author_id: authorId || undefined,
+        published_at: publishedAt,
+        meta_title: (item.meta_title || item.seo?.meta_title || title).toString().slice(0, 60),
+        meta_description: (item.meta_description || item.seo?.meta_description || item.excerpt || '').toString().slice(0, 160),
+        canonical_url: (item.canonical_url || item.seo?.canonical_url || '').toString().slice(0, 500),
       });
 
       entities.push(entity);

@@ -69,13 +69,13 @@ export class BlogsController {
 
   @ApiOperation({ operationId: 'bulk-status-blogs' })
   @Post('bulk-status')
-  bulkStatus(@Body() body: { ids: (number | string)[]; status: string }) {
+  bulkStatus(@Body() body: { ids: string[]; status: string }) {
     return this.service.bulkStatus(body.ids, body.status);
   }
 
   @ApiOperation({ operationId: 'bulk-delete-blogs' })
   @Post('bulk-delete')
-  bulkDelete(@Body() body: { ids: (number | string)[] }) {
+  bulkDelete(@Body() body: { ids: string[] }) {
     return this.service.bulkDelete(body.ids);
   }
 
@@ -104,18 +104,18 @@ export class BlogsController {
   @ApiOperation({ operationId: 'get-blogs-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.service.findOne(+id);
+    return this.service.findOne(id);
   }
 
   @ApiOperation({ operationId: 'update-blogs' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateBlogDto) {
-    return this.service.update(+id, dto);
+    return this.service.update(id, dto);
   }
 
   @ApiOperation({ operationId: 'delete-blogs' })
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.service.remove(+id);
+    return this.service.remove(id);
   }
 }
