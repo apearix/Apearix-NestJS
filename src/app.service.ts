@@ -9,7 +9,7 @@ export class AppService {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Apearix Universe Core</title>
+  <title>Apearix APIverse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -19,8 +19,8 @@ export class AppService {
       --color-background: #FFFFFF;
       --color-surface: #FAFAFC;
       --color-surface-alt: #F6F7FB;
-      --color-primary: #6D28F5;
-      --color-primary-hover: #5B21E6;
+      --color-primary: #5500ff;
+      --color-primary-hover: #4c00ff;
       --color-primary-light: #F4F0FF;
       --color-heading: #111827;
       --color-body: #4B5563;
@@ -198,10 +198,7 @@ export class AppService {
   <canvas id="webgl-canvas"></canvas>
 
   <div class="content-container" id="interactive-card">
-    <div class="system-status">
-      <span class="status-dot"></span>
-      Welcome to Apearix Universe
-    </div>
+    
     <h1 class="title">Hello <span>Apearix!</span></h1>
     <div class="sub-telemetry">
       <span>10 REAL GALAXIES</span>
@@ -226,7 +223,8 @@ export class AppService {
 
       // 2. THREE.JS ENGINE SETUP
       const scene = new THREE.Scene();
-      scene.fog = new THREE.FogExp2(0x090A0F, 0.00008);
+      // scene.fog = new THREE.FogExp2(0x090A0F, 0.00008);
+      scene.fog = false;
 
       const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 75000);
       const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
@@ -236,18 +234,27 @@ export class AppService {
 
       // Texture Generators
       function createStarTexture() {
-        const c = document.createElement('canvas');
-        c.width = 64;
-        c.height = 64;
-        const ctx = c.getContext('2d');
-        const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        g.addColorStop(0, 'rgba(255,255,255,1)');
-        g.addColorStop(0.2, 'rgba(255,255,255,0.9)');
-        g.addColorStop(0.5, 'rgba(196,181,253,0.4)');
-        g.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0, 0, 64, 64);
-        return new THREE.CanvasTexture(c);
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 256;
+      const ctx = c.getContext('2d');
+      
+      // Sharp center core with crisp glow
+      const g = ctx.createRadialGradient(128, 128, 0, 128, 128, 128);
+      g.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      g.addColorStop(0.15, 'rgba(255, 255, 255, 0.95)');
+      g.addColorStop(0.35, 'rgba(224, 231, 255, 0.6)');
+      g.addColorStop(0.7, 'rgba(109, 40, 245, 0.15)');
+      g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, 256, 256);
+
+      const texture = new THREE.CanvasTexture(c);
+      texture.minFilter = THREE.LinearMipMapLinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      texture.generateMipmaps = true;
+      return texture;
       }
 
       function createSunTexture() {
@@ -408,14 +415,15 @@ export class AppService {
         gGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
 
         const gMat = new THREE.PointsMaterial({
-          size: 6.5 * gSpec.scale,
-          map: starTex,
-          vertexColors: true,
-          transparent: true,
-          opacity: 0.88,
-          blending: THREE.AdditiveBlending,
-          depthWrite: false
-        });
+        size: 4.2 * gSpec.scale,        
+        sizeAttenuation: true,       
+        map: starTex,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.95,            
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+           });
         const pSystem = new THREE.Points(gGeo, gMat);
         gGroup.add(pSystem);
 
@@ -662,7 +670,7 @@ export class AppService {
           if (hit.userData.type === 'galaxy') {
             targetLookAt.copy(hit.userData.spec.pos);
             targetSpherical.radius = 480 * hit.userData.spec.scale;
-            card.style.opacity = '0.08';
+            card.style.opacity = '0';
           } else if (hit.userData.type === 'planet') {
             const p = solarPlanets.find(sp => sp.id === hit.userData.data.id);
             if (p) {
@@ -750,7 +758,7 @@ export class AppService {
         }
         targetSpherical.radius = Math.max(12, Math.min(32000, targetSpherical.radius));
 
-        const cardOpacity = THREE.MathUtils.clamp((targetSpherical.radius - 200) / 750, 0, 1);
+        const cardOpacity = THREE.MathUtils.clamp((targetSpherical.radius - 500) / 300, 0, 1);
         card.style.opacity = cardOpacity.toString();
       }, { passive: false });
 

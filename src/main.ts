@@ -30,8 +30,8 @@ async function bootstrap() {
 
   // Swagger OpenAPI Configuration
   const config = new DocumentBuilder()
-    .setTitle('Apearix Admin API')
-    .setDescription('The core API documentation for the Apearix Admin Panel.')
+    .setTitle('Apearix API (Admin & Public Site)')
+    .setDescription('Unified API documentation for the Apearix Admin Panel (/api/v1/admin/*) and Public Website (/api/v1/*).')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
