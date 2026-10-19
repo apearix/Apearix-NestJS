@@ -10,31 +10,31 @@ import { PageStatus } from '../../entities';
 export class LegalPagesController {
   constructor(private readonly service: LegalPagesService) {}
 
-  @ApiOperation({ operationId: 'create-pages' })
+  @ApiOperation({ summary: 'create-pages', operationId: 'create-pages' })
   @Post()
   create(@Body() dto: CreateLegalPageDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-pages' })
+  @ApiOperation({ summary: 'get-all-pages', operationId: 'get-all-pages' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'bulk-status-pages' })
+  @ApiOperation({ summary: 'bulk-status-pages', operationId: 'bulk-status-pages' })
   @Post('bulk-status')
   bulkStatus(@Body() body: { ids: string[]; status: PageStatus }) {
     return this.service.bulkStatus(body.ids, body.status);
   }
 
-  @ApiOperation({ operationId: 'bulk-delete-pages' })
+  @ApiOperation({ summary: 'bulk-delete-pages', operationId: 'bulk-delete-pages' })
   @Post('bulk-delete')
   bulkDelete(@Body() body: { ids: string[] }) {
     return this.service.bulkDelete(body.ids);
   }
 
-  @ApiOperation({ operationId: 'bulk-import-pages' })
+  @ApiOperation({ summary: 'bulk-import-pages', operationId: 'bulk-import-pages' })
   @Post('bulk-import')
   bulkImport(@Body() body: any) {
     let items: any[] = [];
@@ -56,19 +56,19 @@ export class LegalPagesController {
     return this.service.bulkImport(items);
   }
 
-  @ApiOperation({ operationId: 'get-pages-by-id' })
+  @ApiOperation({ summary: 'get-pages-by-id', operationId: 'get-pages-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
-  @ApiOperation({ operationId: 'update-pages' })
+  @ApiOperation({ summary: 'update-pages', operationId: 'update-pages' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateLegalPageDto) {
     return this.service.update(id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-pages' })
+  @ApiOperation({ summary: 'delete-pages', operationId: 'delete-pages' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

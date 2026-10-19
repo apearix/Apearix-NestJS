@@ -9,31 +9,31 @@ import { UpdateFaqDto } from './dto/update-faqs.dto';
 export class FaqsController {
   constructor(private readonly service: FaqsService) {}
 
-  @ApiOperation({ operationId: 'create-faqs' })
+  @ApiOperation({ summary: 'create-faqs', operationId: 'create-faqs' })
   @Post()
   create(@Body() dto: CreateFaqDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-faqs' })
+  @ApiOperation({ summary: 'get-all-faqs', operationId: 'get-all-faqs' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'bulk-status-faqs' })
+  @ApiOperation({ summary: 'bulk-status-faqs', operationId: 'bulk-status-faqs' })
   @Post('bulk-status')
   bulkStatus(@Body() body: { ids: string[]; is_active: boolean }) {
     return this.service.bulkStatus(body.ids, body.is_active);
   }
 
-  @ApiOperation({ operationId: 'bulk-delete-faqs' })
+  @ApiOperation({ summary: 'bulk-delete-faqs', operationId: 'bulk-delete-faqs' })
   @Post('bulk-delete')
   bulkDelete(@Body() body: { ids: string[] }) {
     return this.service.bulkDelete(body.ids);
   }
 
-  @ApiOperation({ operationId: 'bulk-import-faqs' })
+  @ApiOperation({ summary: 'bulk-import-faqs', operationId: 'bulk-import-faqs' })
   @Post('bulk-import')
   bulkImport(@Body() body: any) {
     let items: any[] = [];
@@ -55,19 +55,19 @@ export class FaqsController {
     return this.service.bulkImport(items);
   }
 
-  @ApiOperation({ operationId: 'get-faqs-by-id' })
+  @ApiOperation({ summary: 'get-faqs-by-id', operationId: 'get-faqs-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
-  @ApiOperation({ operationId: 'update-faqs' })
+  @ApiOperation({ summary: 'update-faqs', operationId: 'update-faqs' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateFaqDto) {
     return this.service.update(id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-faqs' })
+  @ApiOperation({ summary: 'delete-faqs', operationId: 'delete-faqs' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

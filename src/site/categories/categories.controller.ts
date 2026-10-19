@@ -8,8 +8,9 @@ export class SiteCategoriesController {
   constructor(private readonly service: SiteCategoriesService) {}
 
   @ApiOperation({
-    summary: 'Get all active categories for public site',
+    summary: 'site-get-all-categories',
     operationId: 'site-get-all-categories',
+    description: 'Get all active categories for public site',
   })
   @ApiQuery({ name: 'type', required: false, description: 'Filter by category type slug or UUID (e.g. blogs)' })
   @ApiQuery({ name: 'parent_id', required: false, description: 'Filter by parent category UUID' })
@@ -19,8 +20,9 @@ export class SiteCategoriesController {
   }
 
   @ApiOperation({
-    summary: 'Get a single active category by slug or ID',
+    summary: 'site-get-category-by-slug',
     operationId: 'site-get-category-by-slug',
+    description: 'Get a single active category by slug or ID',
   })
   @ApiParam({ name: 'slugOrId', description: 'Category slug or UUID' })
   @Get(':slugOrId')

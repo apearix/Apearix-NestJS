@@ -8,8 +8,9 @@ export class SiteServicesController {
   constructor(private readonly service: SiteServicesService) {}
 
   @ApiOperation({
-    summary: 'Get all active services for public site',
+    summary: 'site-get-all-services',
     operationId: 'site-get-all-services',
+    description: 'Get all active services for public site',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Search by service title or description' })
   @Get()
@@ -18,8 +19,9 @@ export class SiteServicesController {
   }
 
   @ApiOperation({
-    summary: 'Get a single active service by ID',
+    summary: 'site-get-service-by-id',
     operationId: 'site-get-service-by-id',
+    description: 'Get a single active service by ID',
   })
   @ApiParam({ name: 'id', description: 'Service ID' })
   @Get(':id')

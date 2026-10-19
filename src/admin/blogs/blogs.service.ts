@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Blog, BlogStatus } from '../../entities';
+import { Blog, BlogStatus, User } from '../../entities';
 import { CreateBlogDto } from './dto/create-blogs.dto';
 import { UpdateBlogDto } from './dto/update-blogs.dto';
 
@@ -17,15 +17,55 @@ export class BlogsService {
     return blog;
   }
 
+  private async resolveAuthorId(authorId?: string | null): Promise<string | null> {
+    if (!authorId || typeof authorId !== 'string') {
+      return null;
+    }
+    const trimmed = authorId.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    // If frontend sends '1' or '2' (hardcoded dummy IDs from UI select option)
+    if (trimmed === '1' || trimmed === '2') {
+      const [adminUser] = await this.repo.manager.getRepository(User).find({
+        take: 1,
+        order: { created_at: 'ASC' },
+      });
+      return adminUser ? adminUser.id : null;
+    }
+
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed);
+    if (!isUuid) {
+      const [adminUser] = await this.repo.manager.getRepository(User).find({
+        take: 1,
+        order: { created_at: 'ASC' },
+      });
+      return adminUser ? adminUser.id : null;
+    }
+
+    const userExists = await this.repo.manager.getRepository(User).findOne({
+      where: { id: trimmed },
+      select: { id: true },
+    });
+    return userExists ? userExists.id : null;
+  }
+
   async create(dto: CreateBlogDto) {
     const status = (dto.status || dto.publishing?.status || BlogStatus.DRAFT) as BlogStatus;
-    const author_id = dto.author_id || dto.publishing?.author_id;
-    const rawPublishedAt = dto.published_at ?? dto.publishing?.published_at;
-    const published_at = rawPublishedAt
-      ? new Date(rawPublishedAt)
-      : status === BlogStatus.PUBLISHED
-      ? new Date()
-      : null;
+    const rawAuthorId = dto.author_id !== undefined ? dto.author_id : dto.publishing?.author_id;
+    const author_id = await this.resolveAuthorId(rawAuthorId);
+
+    let published_at: Date | null = null;
+    const rawPublishedAt = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
+    if (rawPublishedAt && typeof rawPublishedAt === 'string' && rawPublishedAt.trim() !== '') {
+      const parsedDate = new Date(rawPublishedAt);
+      published_at = isNaN(parsedDate.getTime()) ? null : parsedDate;
+    } else if (rawPublishedAt instanceof Date && !isNaN(rawPublishedAt.getTime())) {
+      published_at = rawPublishedAt;
+    } else if (status === BlogStatus.PUBLISHED) {
+      published_at = new Date();
+    }
 
     const blogData = this.repo.create({
       title: dto.title,
@@ -41,7 +81,13 @@ export class BlogsService {
       meta_description: dto.meta_description ?? dto.seo?.meta_description ?? '',
       canonical_url: dto.canonical_url ?? dto.seo?.canonical_url ?? '',
     });
-    return await this.repo.save(blogData);
+
+    const saved = await this.repo.save(blogData);
+    const reloaded = await this.repo.findOne({
+      where: { id: saved.id },
+      relations: { author: true },
+    });
+    return this.sanitizeAuthor(reloaded || saved);
   }
 
   async findAll() {
@@ -49,7 +95,22 @@ export class BlogsService {
       relations: { author: true },
       order: { created_at: 'DESC' },
     });
-    return items.map((item) => this.sanitizeAuthor(item));
+    return items.map((item) => {
+      const safe = this.sanitizeAuthor(item);
+      return {
+        ...safe,
+        publishing: {
+          status: item.status,
+          author_id: item.author_id || (item.author ? item.author.id : null),
+          published_at: item.published_at,
+        },
+        seo: {
+          meta_title: item.meta_title || '',
+          meta_description: item.meta_description || '',
+          canonical_url: item.canonical_url || '',
+        },
+      };
+    });
   }
 
   async findOne(id: string) {
@@ -58,7 +119,20 @@ export class BlogsService {
       relations: { author: true },
     });
     if (!item) throw new NotFoundException('Blog not found');
-    return this.sanitizeAuthor(item);
+    const safe = this.sanitizeAuthor(item);
+    return {
+      ...safe,
+      publishing: {
+        status: item.status,
+        author_id: item.author_id || (item.author ? item.author.id : null),
+        published_at: item.published_at,
+      },
+      seo: {
+        meta_title: item.meta_title || '',
+        meta_description: item.meta_description || '',
+        canonical_url: item.canonical_url || '',
+      },
+    };
   }
 
   async update(id: string, dto: UpdateBlogDto) {
@@ -66,15 +140,30 @@ export class BlogsService {
     if (!existing) throw new NotFoundException('Blog not found');
 
     const status = (dto.status || dto.publishing?.status || existing.status) as BlogStatus;
-    const author_id = dto.author_id || dto.publishing?.author_id || existing.author_id;
+
+    const rawAuthorId = dto.author_id !== undefined ? dto.author_id : dto.publishing?.author_id;
+    let author_id = existing.author_id;
+    if (rawAuthorId !== undefined) {
+      const resolved = await this.resolveAuthorId(rawAuthorId);
+      author_id = resolved || existing.author_id;
+    }
 
     let published_at = existing.published_at;
-    const rawPublishedAt = dto.published_at ?? dto.publishing?.published_at;
+    const rawPublishedAt = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
     if (rawPublishedAt !== undefined) {
-      published_at = rawPublishedAt ? new Date(rawPublishedAt) : null;
+      if (rawPublishedAt && typeof rawPublishedAt === 'string' && rawPublishedAt.trim() !== '') {
+        const parsedDate = new Date(rawPublishedAt);
+        published_at = isNaN(parsedDate.getTime()) ? null : parsedDate;
+      } else if (rawPublishedAt instanceof Date && !isNaN(rawPublishedAt.getTime())) {
+        published_at = rawPublishedAt;
+      } else {
+        published_at = null;
+      }
     } else if (status === BlogStatus.PUBLISHED && !existing.published_at) {
       published_at = new Date();
     }
+
+    existing.author = undefined as any;
 
     const updatedData = this.repo.merge(existing, {
       title: dto.title ?? existing.title,
@@ -84,7 +173,7 @@ export class BlogsService {
       content: dto.content ?? existing.content,
       featured_image: dto.featured_image ?? existing.featured_image,
       status,
-      author_id,
+      author_id: author_id || null,
       published_at,
       meta_title: dto.meta_title ?? dto.seo?.meta_title ?? existing.meta_title,
       meta_description: dto.meta_description ?? dto.seo?.meta_description ?? existing.meta_description,
@@ -92,7 +181,11 @@ export class BlogsService {
     });
 
     const saved = await this.repo.save(updatedData);
-    return this.sanitizeAuthor(saved);
+    const reloaded = await this.repo.findOne({
+      where: { id: saved.id },
+      relations: { author: true },
+    });
+    return this.sanitizeAuthor(reloaded || saved);
   }
 
   async remove(id: string) {

@@ -8,8 +8,9 @@ export class SiteProductsController {
   constructor(private readonly service: SiteProductsService) {}
 
   @ApiOperation({
-    summary: 'Get all active products for public site',
+    summary: 'site-get-all-products',
     operationId: 'site-get-all-products',
+    description: 'Get all active products for public site',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Search by product name or description' })
   @Get()
@@ -18,8 +19,9 @@ export class SiteProductsController {
   }
 
   @ApiOperation({
-    summary: 'Get a single active product by ID',
+    summary: 'site-get-product-by-id',
     operationId: 'site-get-product-by-id',
+    description: 'Get a single active product by ID',
   })
   @ApiParam({ name: 'id', description: 'Product ID' })
   @Get(':id')

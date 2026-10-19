@@ -8,8 +8,9 @@ export class SitePagesController {
   constructor(private readonly service: SitePagesService) {}
 
   @ApiOperation({
-    summary: 'Get all published legal/static pages',
+    summary: 'site-get-all-pages',
     operationId: 'site-get-all-pages',
+    description: 'Get all published legal/static pages',
   })
   @Get()
   findAll() {
@@ -17,8 +18,9 @@ export class SitePagesController {
   }
 
   @ApiOperation({
-    summary: 'Get a single published page by slug or ID',
+    summary: 'site-get-page-by-slug',
     operationId: 'site-get-page-by-slug',
+    description: 'Get a single published page by slug or ID',
   })
   @ApiParam({ name: 'slugOrId', description: 'Page slug (e.g. privacy-policy) or UUID' })
   @Get(':slugOrId')

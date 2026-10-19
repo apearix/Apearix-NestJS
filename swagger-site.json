@@ -1,0 +1,865 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/blogs": {
+      "get": {
+        "description": "Get all published blogs for public site",
+        "operationId": "site-get-all-blogs",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by title or excerpt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page (optional)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-blogs",
+        "tags": [
+          "Site - Blogs"
+        ]
+      }
+    },
+    "/api/v1/blogs/{slugOrId}": {
+      "get": {
+        "description": "Get a single published blog by slug or ID",
+        "operationId": "site-get-blog-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Blog slug or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "site-get-blog-by-slug",
+        "tags": [
+          "Site - Blogs"
+        ]
+      }
+    },
+    "/api/v1/pages": {
+      "get": {
+        "description": "Get all published legal/static pages",
+        "operationId": "site-get-all-pages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LegalPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-pages",
+        "tags": [
+          "Site - Pages"
+        ]
+      }
+    },
+    "/api/v1/pages/{slugOrId}": {
+      "get": {
+        "description": "Get a single published page by slug or ID",
+        "operationId": "site-get-page-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Page slug (e.g. privacy-policy) or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalPage"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-page-by-slug",
+        "tags": [
+          "Site - Pages"
+        ]
+      }
+    },
+    "/api/v1/faqs": {
+      "get": {
+        "description": "Get all active FAQs for public site",
+        "operationId": "site-get-all-faqs",
+        "parameters": [
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Filter by FAQ category (e.g. general)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search question or answer",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Faq"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-faqs",
+        "tags": [
+          "Site - FAQs"
+        ]
+      }
+    },
+    "/api/v1/faqs/{id}": {
+      "get": {
+        "description": "Get a single active FAQ by ID",
+        "operationId": "site-get-faq-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "FAQ UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Faq"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-faq-by-id",
+        "tags": [
+          "Site - FAQs"
+        ]
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "description": "Get all active categories for public site",
+        "operationId": "site-get-all-categories",
+        "parameters": [
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by category type slug or UUID (e.g. blogs)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parent_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by parent category UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-categories",
+        "tags": [
+          "Site - Categories"
+        ]
+      }
+    },
+    "/api/v1/categories/{slugOrId}": {
+      "get": {
+        "description": "Get a single active category by slug or ID",
+        "operationId": "site-get-category-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Category slug or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-category-by-slug",
+        "tags": [
+          "Site - Categories"
+        ]
+      }
+    },
+    "/api/v1/category-types": {
+      "get": {
+        "description": "Get all active category types for public site",
+        "operationId": "site-get-all-category-types",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryType"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-category-types",
+        "tags": [
+          "Site - Category Types"
+        ]
+      }
+    },
+    "/api/v1/category-types/{slugOrId}": {
+      "get": {
+        "description": "Get a single active category type by slug or ID with its active categories",
+        "operationId": "site-get-category-type-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Category Type slug (e.g. blogs) or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryType"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-category-type-by-slug",
+        "tags": [
+          "Site - Category Types"
+        ]
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "description": "Get all active products for public site",
+        "operationId": "site-get-all-products",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by product name or description",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-products",
+        "tags": [
+          "Site - Products"
+        ]
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "description": "Get a single active product by ID",
+        "operationId": "site-get-product-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Product ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-product-by-id",
+        "tags": [
+          "Site - Products"
+        ]
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "description": "Get all active services for public site",
+        "operationId": "site-get-all-services",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by service title or description",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-services",
+        "tags": [
+          "Site - Services"
+        ]
+      }
+    },
+    "/api/v1/services/{id}": {
+      "get": {
+        "description": "Get a single active service by ID",
+        "operationId": "site-get-service-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Service ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-service-by-id",
+        "tags": [
+          "Site - Services"
+        ]
+      }
+    },
+    "/api/v1/settings": {
+      "get": {
+        "description": "Get public website settings (site name, logo, social links, SEO)",
+        "operationId": "site-get-public-settings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "site-get-public-settings",
+        "tags": [
+          "Site - Settings"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Apearix Public Site API",
+    "description": "Public APIs for website frontend without authentication.",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Site - Blogs",
+      "description": "Public site blog endpoints"
+    },
+    {
+      "name": "Site - Categories",
+      "description": "Public site categories endpoints"
+    },
+    {
+      "name": "Site - Category Types",
+      "description": "Public site category types endpoints"
+    },
+    {
+      "name": "Site - FAQs",
+      "description": "Public site FAQs endpoints"
+    },
+    {
+      "name": "Site - Pages",
+      "description": "Public site static and legal pages endpoints"
+    },
+    {
+      "name": "Site - Products",
+      "description": "Public site products endpoints"
+    },
+    {
+      "name": "Site - Services",
+      "description": "Public site services endpoints"
+    },
+    {
+      "name": "Site - Settings",
+      "description": "Public site settings endpoints"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "LegalPage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "published_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "content",
+          "status",
+          "meta_title",
+          "meta_description",
+          "published_at",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "Faq": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "answer",
+          "category",
+          "order",
+          "is_active",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon_or_image": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "category_type_id": {
+            "type": "string"
+          },
+          "category_type": {
+            "$ref": "#/components/schemas/CategoryType"
+          },
+          "parent_id": {
+            "type": "string"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "description",
+          "icon_or_image",
+          "order",
+          "is_active",
+          "category_type_id",
+          "category_type",
+          "parent_id",
+          "parent",
+          "children",
+          "meta_title",
+          "meta_description",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "CategoryType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "description",
+          "is_active",
+          "categories",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "price",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "ServiceEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "icon",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      }
+    }
+  }
+}

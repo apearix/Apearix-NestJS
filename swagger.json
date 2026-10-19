@@ -1,0 +1,4426 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "get-hello-app",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/api/v1/admin/auth/login": {
+      "post": {
+        "operationId": "login-admin",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "admin-login",
+        "tags": [
+          "Admin - Auth"
+        ]
+      }
+    },
+    "/api/v1/admin/auth/logout": {
+      "post": {
+        "operationId": "logout-admin",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "admin-logout",
+        "tags": [
+          "Admin - Auth"
+        ]
+      }
+    },
+    "/api/v1/admin/auth/forgot-password": {
+      "post": {
+        "operationId": "forgot-password",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "admin-forgot-password",
+        "tags": [
+          "Admin - Auth"
+        ]
+      }
+    },
+    "/api/v1/admin/auth/change-password": {
+      "post": {
+        "operationId": "change-password",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "admin-change-password",
+        "tags": [
+          "Admin - Auth"
+        ]
+      }
+    },
+    "/api/v1/admin/dashboard": {
+      "get": {
+        "operationId": "get-dashboard-stats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-dashboard-stats",
+        "tags": [
+          "Admin - Dashboard"
+        ]
+      }
+    },
+    "/api/v1/admin/roles": {
+      "post": {
+        "operationId": "create-role",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-roles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Role"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/roles": {
+      "post": {
+        "operationId": "create-role",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-roles",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Role"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/api/v1/admin/roles/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-roles",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/roles/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-roles",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/api/v1/admin/roles/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-roles",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/roles/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-roles",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-roles",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/api/v1/admin/roles/{id}": {
+      "get": {
+        "operationId": "get-role-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-role-by-id",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "patch": {
+        "operationId": "update-role",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-role",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/roles/{id}": {
+      "get": {
+        "operationId": "get-role-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-role-by-id",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "patch": {
+        "operationId": "update-role",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Role"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-role",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-role",
+        "tags": [
+          "Admin - Roles"
+        ]
+      }
+    },
+    "/api/v1/admin/users/upload": {
+      "post": {
+        "operationId": "upload-user-avatar",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "upload-user-avatar",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/upload": {
+      "post": {
+        "operationId": "upload-user-avatar",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "upload-user-avatar",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/upload": {
+      "post": {
+        "operationId": "upload-user-avatar",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "upload-user-avatar",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/create": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/create": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-users",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/create": {
+      "post": {
+        "operationId": "create-user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "create-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/import": {
+      "post": {
+        "operationId": "bulk-import-users",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-users",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}": {
+      "get": {
+        "operationId": "get-user-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-user-by-id",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "patch": {
+        "description": "Update user profile",
+        "operationId": "update-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/admin/users/{id}": {
+      "get": {
+        "operationId": "get-user-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-user-by-id",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "patch": {
+        "description": "Update user profile",
+        "operationId": "update-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "operationId": "get-user-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-user-by-id",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "patch": {
+        "description": "Update user profile",
+        "operationId": "update-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-user",
+        "tags": [
+          "Admin - Users"
+        ]
+      }
+    },
+    "/api/v1/admin/profile": {
+      "get": {
+        "operationId": "get-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      },
+      "patch": {
+        "operationId": "update-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/admin/profile": {
+      "get": {
+        "operationId": "get-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      },
+      "patch": {
+        "operationId": "update-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/profile": {
+      "get": {
+        "operationId": "get-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      },
+      "patch": {
+        "operationId": "update-profile",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-profile",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/api/v1/admin/profile/change-password": {
+      "post": {
+        "operationId": "change-password",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "change-password",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/admin/profile/change-password": {
+      "post": {
+        "operationId": "change-password",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "change-password",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/profile/change-password": {
+      "post": {
+        "operationId": "change-password",
+        "parameters": [
+          {
+            "name": "userId",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "change-password",
+        "tags": [
+          "Admin - Profile"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs/upload": {
+      "post": {
+        "operationId": "upload-blog-image",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "upload-blog-image",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs": {
+      "post": {
+        "operationId": "create-blogs",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBlogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Blog"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-blogs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-blogs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-blogs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-blogs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/blogs/{id}": {
+      "get": {
+        "operationId": "get-blogs-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-blogs-by-id",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      },
+      "patch": {
+        "operationId": "update-blogs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBlogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-blogs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-blogs",
+        "tags": [
+          "Admin - Blogs"
+        ]
+      }
+    },
+    "/api/v1/admin/categories": {
+      "post": {
+        "operationId": "create-categories",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-categories",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      }
+    },
+    "/api/v1/admin/categories/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-categories",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      }
+    },
+    "/api/v1/admin/categories/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-categories",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      }
+    },
+    "/api/v1/admin/categories/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-categories",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      }
+    },
+    "/api/v1/admin/categories/{id}": {
+      "get": {
+        "operationId": "get-categories-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-categories-by-id",
+        "tags": [
+          "Admin - Categories"
+        ]
+      },
+      "patch": {
+        "operationId": "update-categories",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-categories",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-categories",
+        "tags": [
+          "Admin - Categories"
+        ]
+      }
+    },
+    "/api/v1/admin/category-types": {
+      "post": {
+        "operationId": "create-category-types",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryType"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-category-types",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryType"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      }
+    },
+    "/api/v1/admin/category-types/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-category-types",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      }
+    },
+    "/api/v1/admin/category-types/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-category-types",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      }
+    },
+    "/api/v1/admin/category-types/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-category-types",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      }
+    },
+    "/api/v1/admin/category-types/{id}": {
+      "get": {
+        "operationId": "get-category-types-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryType"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-category-types-by-id",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      },
+      "patch": {
+        "operationId": "update-category-types",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryTypeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryType"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-category-types",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-category-types",
+        "tags": [
+          "Admin - Category Types"
+        ]
+      }
+    },
+    "/api/v1/admin/faqs": {
+      "post": {
+        "operationId": "create-faqs",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFaqDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Faq"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-faqs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Faq"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      }
+    },
+    "/api/v1/admin/faqs/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-faqs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      }
+    },
+    "/api/v1/admin/faqs/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-faqs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      }
+    },
+    "/api/v1/admin/faqs/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-faqs",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      }
+    },
+    "/api/v1/admin/faqs/{id}": {
+      "get": {
+        "operationId": "get-faqs-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Faq"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-faqs-by-id",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      },
+      "patch": {
+        "operationId": "update-faqs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFaqDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Faq"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-faqs",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-faqs",
+        "tags": [
+          "Admin - FAQs"
+        ]
+      }
+    },
+    "/api/v1/admin/pages": {
+      "post": {
+        "operationId": "create-pages",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLegalPageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalPage"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-pages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LegalPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      }
+    },
+    "/api/v1/admin/pages/bulk-status": {
+      "post": {
+        "operationId": "bulk-status-pages",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-status-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      }
+    },
+    "/api/v1/admin/pages/bulk-delete": {
+      "post": {
+        "operationId": "bulk-delete-pages",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-delete-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      }
+    },
+    "/api/v1/admin/pages/bulk-import": {
+      "post": {
+        "operationId": "bulk-import-pages",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "bulk-import-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      }
+    },
+    "/api/v1/admin/pages/{id}": {
+      "get": {
+        "operationId": "get-pages-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalPage"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-pages-by-id",
+        "tags": [
+          "Admin - Pages"
+        ]
+      },
+      "patch": {
+        "operationId": "update-pages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLegalPageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalPage"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-pages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-pages",
+        "tags": [
+          "Admin - Pages"
+        ]
+      }
+    },
+    "/api/v1/admin/products": {
+      "post": {
+        "operationId": "create-products",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-products",
+        "tags": [
+          "Admin - Products"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-products",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-products",
+        "tags": [
+          "Admin - Products"
+        ]
+      }
+    },
+    "/api/v1/admin/products/{id}": {
+      "get": {
+        "operationId": "get-products-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-products-by-id",
+        "tags": [
+          "Admin - Products"
+        ]
+      },
+      "patch": {
+        "operationId": "update-products",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-products",
+        "tags": [
+          "Admin - Products"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-products",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-products",
+        "tags": [
+          "Admin - Products"
+        ]
+      }
+    },
+    "/api/v1/admin/services": {
+      "post": {
+        "operationId": "create-services",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateServiceEntityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "create-services",
+        "tags": [
+          "Admin - Services"
+        ]
+      },
+      "get": {
+        "operationId": "get-all-services",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-all-services",
+        "tags": [
+          "Admin - Services"
+        ]
+      }
+    },
+    "/api/v1/admin/services/{id}": {
+      "get": {
+        "operationId": "get-services-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-services-by-id",
+        "tags": [
+          "Admin - Services"
+        ]
+      },
+      "patch": {
+        "operationId": "update-services",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateServiceEntityDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "update-services",
+        "tags": [
+          "Admin - Services"
+        ]
+      },
+      "delete": {
+        "operationId": "delete-services",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "delete-services",
+        "tags": [
+          "Admin - Services"
+        ]
+      }
+    },
+    "/api/v1/admin/settings": {
+      "get": {
+        "operationId": "get-admin-settings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-admin-settings",
+        "tags": [
+          "Admin - Settings"
+        ]
+      },
+      "patch": {
+        "operationId": "update-admin-settings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "update-admin-settings",
+        "tags": [
+          "Admin - Settings"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications": {
+      "get": {
+        "operationId": "get-admin-notifications",
+        "parameters": [
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "unreadOnly",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "List admin notifications",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/mark-all-read": {
+      "post": {
+        "operationId": "mark-all-notifications-read",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Mark all notifications as read",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/clear-all": {
+      "delete": {
+        "operationId": "clear-all-notifications",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Clear all notifications",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/simulate": {
+      "post": {
+        "operationId": "simulate-live-notification",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Simulate live notification event",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/{id}/read": {
+      "patch": {
+        "operationId": "mark-notification-read",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Mark single notification as read",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/{id}/unread": {
+      "patch": {
+        "operationId": "mark-notification-unread",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Mark single notification as unread",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/admin/notifications/{id}": {
+      "delete": {
+        "operationId": "delete-notification",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "Delete single notification",
+        "tags": [
+          "Admin - Notifications"
+        ]
+      }
+    },
+    "/api/v1/blogs": {
+      "get": {
+        "description": "Get all published blogs for public site",
+        "operationId": "site-get-all-blogs",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by title or excerpt",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (optional)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page (optional)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-blogs",
+        "tags": [
+          "Site - Blogs"
+        ]
+      }
+    },
+    "/api/v1/blogs/{slugOrId}": {
+      "get": {
+        "description": "Get a single published blog by slug or ID",
+        "operationId": "site-get-blog-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Blog slug or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "site-get-blog-by-slug",
+        "tags": [
+          "Site - Blogs"
+        ]
+      }
+    },
+    "/api/v1/pages": {
+      "get": {
+        "description": "Get all published legal/static pages",
+        "operationId": "site-get-all-pages",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LegalPage"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-pages",
+        "tags": [
+          "Site - Pages"
+        ]
+      }
+    },
+    "/api/v1/pages/{slugOrId}": {
+      "get": {
+        "description": "Get a single published page by slug or ID",
+        "operationId": "site-get-page-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Page slug (e.g. privacy-policy) or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalPage"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-page-by-slug",
+        "tags": [
+          "Site - Pages"
+        ]
+      }
+    },
+    "/api/v1/faqs": {
+      "get": {
+        "description": "Get all active FAQs for public site",
+        "operationId": "site-get-all-faqs",
+        "parameters": [
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Filter by FAQ category (e.g. general)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search question or answer",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Faq"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-faqs",
+        "tags": [
+          "Site - FAQs"
+        ]
+      }
+    },
+    "/api/v1/faqs/{id}": {
+      "get": {
+        "description": "Get a single active FAQ by ID",
+        "operationId": "site-get-faq-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "FAQ UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Faq"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-faq-by-id",
+        "tags": [
+          "Site - FAQs"
+        ]
+      }
+    },
+    "/api/v1/categories": {
+      "get": {
+        "description": "Get all active categories for public site",
+        "operationId": "site-get-all-categories",
+        "parameters": [
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "description": "Filter by category type slug or UUID (e.g. blogs)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "parent_id",
+            "required": false,
+            "in": "query",
+            "description": "Filter by parent category UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-categories",
+        "tags": [
+          "Site - Categories"
+        ]
+      }
+    },
+    "/api/v1/categories/{slugOrId}": {
+      "get": {
+        "description": "Get a single active category by slug or ID",
+        "operationId": "site-get-category-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Category slug or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-category-by-slug",
+        "tags": [
+          "Site - Categories"
+        ]
+      }
+    },
+    "/api/v1/category-types": {
+      "get": {
+        "description": "Get all active category types for public site",
+        "operationId": "site-get-all-category-types",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryType"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-category-types",
+        "tags": [
+          "Site - Category Types"
+        ]
+      }
+    },
+    "/api/v1/category-types/{slugOrId}": {
+      "get": {
+        "description": "Get a single active category type by slug or ID with its active categories",
+        "operationId": "site-get-category-type-by-slug",
+        "parameters": [
+          {
+            "name": "slugOrId",
+            "required": true,
+            "in": "path",
+            "description": "Category Type slug (e.g. blogs) or UUID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryType"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-category-type-by-slug",
+        "tags": [
+          "Site - Category Types"
+        ]
+      }
+    },
+    "/api/v1/products": {
+      "get": {
+        "description": "Get all active products for public site",
+        "operationId": "site-get-all-products",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by product name or description",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-products",
+        "tags": [
+          "Site - Products"
+        ]
+      }
+    },
+    "/api/v1/products/{id}": {
+      "get": {
+        "description": "Get a single active product by ID",
+        "operationId": "site-get-product-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Product ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-product-by-id",
+        "tags": [
+          "Site - Products"
+        ]
+      }
+    },
+    "/api/v1/services": {
+      "get": {
+        "description": "Get all active services for public site",
+        "operationId": "site-get-all-services",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search by service title or description",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ServiceEntity"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-all-services",
+        "tags": [
+          "Site - Services"
+        ]
+      }
+    },
+    "/api/v1/services/{id}": {
+      "get": {
+        "description": "Get a single active service by ID",
+        "operationId": "site-get-service-by-id",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Service ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceEntity"
+                }
+              }
+            }
+          }
+        },
+        "summary": "site-get-service-by-id",
+        "tags": [
+          "Site - Services"
+        ]
+      }
+    },
+    "/api/v1/settings": {
+      "get": {
+        "description": "Get public website settings (site name, logo, social links, SEO)",
+        "operationId": "site-get-public-settings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "site-get-public-settings",
+        "tags": [
+          "Site - Settings"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Apearix API (Admin & Public Site)",
+    "description": "Unified API documentation for the Apearix Admin Panel (/api/v1/admin/*) and Public Website (/api/v1/*).",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Site - Blogs",
+      "description": "Public site blog endpoints"
+    },
+    {
+      "name": "Site - Categories",
+      "description": "Public site categories endpoints"
+    },
+    {
+      "name": "Site - Category Types",
+      "description": "Public site category types endpoints"
+    },
+    {
+      "name": "Site - FAQs",
+      "description": "Public site FAQs endpoints"
+    },
+    {
+      "name": "Site - Pages",
+      "description": "Public site static and legal pages endpoints"
+    },
+    {
+      "name": "Site - Products",
+      "description": "Public site products endpoints"
+    },
+    {
+      "name": "Site - Services",
+      "description": "Public site services endpoints"
+    },
+    {
+      "name": "Site - Settings",
+      "description": "Public site settings endpoints"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "LoginAdminDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@apearix.com",
+            "description": "Admin Email"
+          },
+          "password": {
+            "type": "string",
+            "example": "admin123",
+            "description": "Admin Password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "admin@apearix.com",
+            "description": "Admin Email for password reset"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "ChangePasswordDto": {
+        "type": "object",
+        "properties": {
+          "old_password": {
+            "type": "string",
+            "example": "oldPassword123"
+          },
+          "new_password": {
+            "type": "string",
+            "example": "newPassword123"
+          }
+        },
+        "required": [
+          "old_password",
+          "new_password"
+        ]
+      },
+      "CreateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Super Admin"
+          },
+          "slug": {
+            "type": "string",
+            "example": "super-admin"
+          },
+          "description": {
+            "type": "string",
+            "example": "Has all privileges"
+          }
+        },
+        "required": [
+          "name",
+          "slug"
+        ]
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "description",
+          "users",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "dob": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "inactive",
+              "suspended",
+              "blocked"
+            ],
+            "type": "string"
+          },
+          "last_login_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "first_name",
+          "last_name",
+          "email",
+          "phone",
+          "password",
+          "avatar",
+          "dob",
+          "status",
+          "last_login_at",
+          "role",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "UpdateRoleDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Super Admin"
+          },
+          "slug": {
+            "type": "string",
+            "example": "super-admin"
+          },
+          "description": {
+            "type": "string",
+            "example": "Has all privileges"
+          }
+        }
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1234567890"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "example": "password123"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.jpg"
+          },
+          "dob": {
+            "format": "date-time",
+            "type": "string",
+            "example": "1990-01-01T00:00:00Z"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "inactive",
+              "suspended",
+              "blocked"
+            ],
+            "type": "string",
+            "default": "active"
+          },
+          "role_id": {
+            "type": "string",
+            "example": "d3b07384-d113-4a67-b8ab-54157d627c94"
+          }
+        },
+        "required": [
+          "first_name",
+          "email",
+          "password"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "john@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+1234567890"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 6,
+            "example": "password123"
+          },
+          "avatar": {
+            "type": "string",
+            "example": "https://example.com/avatar.jpg"
+          },
+          "dob": {
+            "format": "date-time",
+            "type": "string",
+            "example": "1990-01-01T00:00:00Z"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "inactive",
+              "suspended",
+              "blocked"
+            ],
+            "type": "string",
+            "default": "active"
+          },
+          "role_id": {
+            "type": "string",
+            "example": "d3b07384-d113-4a67-b8ab-54157d627c94"
+          }
+        }
+      },
+      "PublishingDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "author_id": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SeoDto": {
+        "type": "object",
+        "properties": {
+          "meta_title": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "meta_description": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "canonical_url": {
+            "type": "string",
+            "maxLength": 500
+          }
+        }
+      },
+      "CreateBlogDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "slug": {
+            "type": "string",
+            "maxLength": 220,
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "is_manual_slug": {
+            "type": "boolean"
+          },
+          "excerpt": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 100000
+          },
+          "featured_image": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "author_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "published_at": {
+            "type": "string",
+            "nullable": true
+          },
+          "meta_title": {
+            "type": "string",
+            "maxLength": 60
+          },
+          "meta_description": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "canonical_url": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "publishing": {
+            "$ref": "#/components/schemas/PublishingDto"
+          },
+          "seo": {
+            "$ref": "#/components/schemas/SeoDto"
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "content"
+        ]
+      },
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "is_manual_slug": {
+            "type": "boolean"
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "featured_image": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "author_id": {
+            "type": "string"
+          },
+          "author": {
+            "$ref": "#/components/schemas/User"
+          },
+          "published_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "canonical_url": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "is_manual_slug",
+          "excerpt",
+          "content",
+          "featured_image",
+          "status",
+          "author_id",
+          "author",
+          "published_at",
+          "meta_title",
+          "meta_description",
+          "canonical_url",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "UpdateBlogDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateCategoryDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon_or_image": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "category_type_id": {
+            "type": "string"
+          },
+          "parent_id": {
+            "type": "string"
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon_or_image": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "category_type_id": {
+            "type": "string"
+          },
+          "category_type": {
+            "$ref": "#/components/schemas/CategoryType"
+          },
+          "parent_id": {
+            "type": "string"
+          },
+          "parent": {
+            "$ref": "#/components/schemas/Category"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "description",
+          "icon_or_image",
+          "order",
+          "is_active",
+          "category_type_id",
+          "category_type",
+          "parent_id",
+          "parent",
+          "children",
+          "meta_title",
+          "meta_description",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "CategoryType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "description",
+          "is_active",
+          "categories",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "UpdateCategoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateCategoryTypeDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "UpdateCategoryTypeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateFaqDto": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "question",
+          "answer"
+        ]
+      },
+      "Faq": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "question",
+          "answer",
+          "category",
+          "order",
+          "is_active",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "UpdateFaqDto": {
+        "type": "object",
+        "properties": {
+          "question": {
+            "type": "string"
+          },
+          "answer": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "order": {
+            "type": "number"
+          },
+          "is_active": {
+            "type": "boolean"
+          }
+        }
+      },
+      "CreateLegalPageDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "content"
+        ]
+      },
+      "LegalPage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "published_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "slug",
+          "content",
+          "status",
+          "meta_title",
+          "meta_description",
+          "published_at",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "UpdateLegalPageDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "published_at": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateProductDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "price"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "price",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateProductDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateServiceEntityDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "icon"
+        ]
+      },
+      "ServiceEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "isActive": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "icon",
+          "isActive",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateServiceEntityDto": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  }
+}

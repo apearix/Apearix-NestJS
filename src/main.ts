@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { SiteModule, SITE_MODULES } from './site/site.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as express from 'express';
@@ -28,16 +29,64 @@ async function bootstrap() {
   // CORS enable for external connections if needed
   app.enableCors();
 
-  // Swagger OpenAPI Configuration
-  const config = new DocumentBuilder()
+  // 1. Unified Swagger Documentation (/api/docs)
+  const unifiedConfig = new DocumentBuilder()
     .setTitle('Apearix API (Admin & Public Site)')
     .setDescription('Unified API documentation for the Apearix Admin Panel (/api/v1/admin/*) and Public Website (/api/v1/*).')
     .setVersion('1.0')
     .addBearerAuth()
+    .addTag('Site - Blogs', 'Public site blog endpoints')
+    .addTag('Site - Categories', 'Public site categories endpoints')
+    .addTag('Site - Category Types', 'Public site category types endpoints')
+    .addTag('Site - FAQs', 'Public site FAQs endpoints')
+    .addTag('Site - Pages', 'Public site static and legal pages endpoints')
+    .addTag('Site - Products', 'Public site products endpoints')
+    .addTag('Site - Services', 'Public site services endpoints')
+    .addTag('Site - Settings', 'Public site settings endpoints')
     .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  const unifiedDocument = SwaggerModule.createDocument(app, unifiedConfig);
+  SwaggerModule.setup('api/docs', app, unifiedDocument, {
+    swaggerOptions: {
+      persistAuthorization: true,
+      docExpansion: 'none',
+      filter: true,
+    },
+  });
+
+  // 2. Dedicated Public Site Swagger Documentation (/api/docs/site)
+  const siteConfig = new DocumentBuilder()
+    .setTitle('Apearix Public Site API')
+    .setDescription('Public APIs for website frontend without authentication.')
+    .setVersion('1.0')
+    .addTag('Site - Blogs', 'Public site blog endpoints')
+    .addTag('Site - Categories', 'Public site categories endpoints')
+    .addTag('Site - Category Types', 'Public site category types endpoints')
+    .addTag('Site - FAQs', 'Public site FAQs endpoints')
+    .addTag('Site - Pages', 'Public site static and legal pages endpoints')
+    .addTag('Site - Products', 'Public site products endpoints')
+    .addTag('Site - Services', 'Public site services endpoints')
+    .addTag('Site - Settings', 'Public site settings endpoints')
+    .build();
+
+  const siteDocument = SwaggerModule.createDocument(app, siteConfig, {
+    include: SITE_MODULES,
+  });
+  SwaggerModule.setup('api/docs/site', app, siteDocument, {
+    swaggerOptions: {
+      docExpansion: 'list',
+      filter: true,
+    },
+  });
+
+  // Auto-export swagger specifications to disk for Postman export/import
+  try {
+    fs.writeFileSync(join(process.cwd(), 'swagger.json'), JSON.stringify(unifiedDocument, null, 2));
+    fs.writeFileSync(join(process.cwd(), 'swagger-site.json'), JSON.stringify(siteDocument, null, 2));
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.warn('Could not write swagger JSON files to disk:', msg);
+  }
 
   await app.listen(process.env.PORT || 3001);
 }

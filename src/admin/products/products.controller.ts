@@ -9,31 +9,31 @@ import { UpdateProductDto } from './dto/update-products.dto';
 export class ProductsController {
   constructor(private readonly service: ProductsService) {}
 
-  @ApiOperation({ operationId: 'create-products' })
+  @ApiOperation({ summary: 'create-products', operationId: 'create-products' })
   @Post()
   create(@Body() dto: CreateProductDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-products' })
+  @ApiOperation({ summary: 'get-all-products', operationId: 'get-all-products' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'get-products-by-id' })
+  @ApiOperation({ summary: 'get-products-by-id', operationId: 'get-products-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
   }
 
-  @ApiOperation({ operationId: 'update-products' })
+  @ApiOperation({ summary: 'update-products', operationId: 'update-products' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateProductDto) {
     return this.service.update(+id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-products' })
+  @ApiOperation({ summary: 'delete-products', operationId: 'delete-products' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);

@@ -23,7 +23,7 @@ import { UpdateBlogDto } from './dto/update-blogs.dto';
 export class BlogsController {
   constructor(private readonly service: BlogsService) {}
 
-  @ApiOperation({ operationId: 'upload-blog-image' })
+  @ApiOperation({ summary: 'upload-blog-image', operationId: 'upload-blog-image' })
   @ApiConsumes('multipart/form-data')
   @Post('upload')
   @UseInterceptors(
@@ -56,31 +56,31 @@ export class BlogsController {
     };
   }
 
-  @ApiOperation({ operationId: 'create-blogs' })
+  @ApiOperation({ summary: 'create-blogs', operationId: 'create-blogs' })
   @Post()
   create(@Body() dto: CreateBlogDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-blogs' })
+  @ApiOperation({ summary: 'get-all-blogs', operationId: 'get-all-blogs' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'bulk-status-blogs' })
+  @ApiOperation({ summary: 'bulk-status-blogs', operationId: 'bulk-status-blogs' })
   @Post('bulk-status')
   bulkStatus(@Body() body: { ids: string[]; status: string }) {
     return this.service.bulkStatus(body.ids, body.status);
   }
 
-  @ApiOperation({ operationId: 'bulk-delete-blogs' })
+  @ApiOperation({ summary: 'bulk-delete-blogs', operationId: 'bulk-delete-blogs' })
   @Post('bulk-delete')
   bulkDelete(@Body() body: { ids: string[] }) {
     return this.service.bulkDelete(body.ids);
   }
 
-  @ApiOperation({ operationId: 'bulk-import-blogs' })
+  @ApiOperation({ summary: 'bulk-import-blogs', operationId: 'bulk-import-blogs' })
   @Post('bulk-import')
   bulkImport(@Body() body: any) {
     let items: any[] = [];
@@ -102,19 +102,19 @@ export class BlogsController {
     return this.service.bulkImport(items);
   }
 
-  @ApiOperation({ operationId: 'get-blogs-by-id' })
+  @ApiOperation({ summary: 'get-blogs-by-id', operationId: 'get-blogs-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
-  @ApiOperation({ operationId: 'update-blogs' })
+  @ApiOperation({ summary: 'update-blogs', operationId: 'update-blogs' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateBlogDto) {
     return this.service.update(id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-blogs' })
+  @ApiOperation({ summary: 'delete-blogs', operationId: 'delete-blogs' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

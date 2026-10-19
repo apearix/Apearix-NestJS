@@ -8,8 +8,9 @@ export class SiteSettingsController {
   constructor(private readonly service: SiteSettingsService) {}
 
   @ApiOperation({
-    summary: 'Get public website settings (site name, logo, social links, SEO)',
+    summary: 'site-get-public-settings',
     operationId: 'site-get-public-settings',
+    description: 'Get public website settings (site name, logo, social links, SEO)',
   })
   @Get()
   getPublicSettings() {

@@ -8,8 +8,9 @@ export class SiteCategoryTypesController {
   constructor(private readonly service: SiteCategoryTypesService) {}
 
   @ApiOperation({
-    summary: 'Get all active category types for public site',
+    summary: 'site-get-all-category-types',
     operationId: 'site-get-all-category-types',
+    description: 'Get all active category types for public site',
   })
   @Get()
   findAll() {
@@ -17,8 +18,9 @@ export class SiteCategoryTypesController {
   }
 
   @ApiOperation({
-    summary: 'Get a single active category type by slug or ID with its active categories',
+    summary: 'site-get-category-type-by-slug',
     operationId: 'site-get-category-type-by-slug',
+    description: 'Get a single active category type by slug or ID with its active categories',
   })
   @ApiParam({ name: 'slugOrId', description: 'Category Type slug (e.g. blogs) or UUID' })
   @Get(':slugOrId')

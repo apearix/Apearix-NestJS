@@ -8,8 +8,9 @@ export class SiteBlogsController {
   constructor(private readonly service: SiteBlogsService) {}
 
   @ApiOperation({
-    summary: 'Get all published blogs for public site',
+    summary: 'site-get-all-blogs',
     operationId: 'site-get-all-blogs',
+    description: 'Get all published blogs for public site',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Search by title or excerpt' })
   @ApiQuery({ name: 'page', required: false, description: 'Page number (optional)' })
@@ -28,8 +29,9 @@ export class SiteBlogsController {
   }
 
   @ApiOperation({
-    summary: 'Get a single published blog by slug or ID',
+    summary: 'site-get-blog-by-slug',
     operationId: 'site-get-blog-by-slug',
+    description: 'Get a single published blog by slug or ID',
   })
   @ApiParam({ name: 'slugOrId', description: 'Blog slug or UUID' })
   @Get(':slugOrId')

@@ -8,16 +8,20 @@ import { SiteProductsModule } from './products/products.module';
 import { SiteServicesModule } from './services/services.module';
 import { SiteSettingsModule } from './settings/settings.module';
 
+export const SITE_MODULES = [
+  SiteBlogsModule,
+  SitePagesModule,
+  SiteFaqsModule,
+  SiteCategoriesModule,
+  SiteCategoryTypesModule,
+  SiteProductsModule,
+  SiteServicesModule,
+  SiteSettingsModule,
+];
+
 @Module({
-  imports: [
-    SiteBlogsModule,
-    SitePagesModule,
-    SiteFaqsModule,
-    SiteCategoriesModule,
-    SiteCategoryTypesModule,
-    SiteProductsModule,
-    SiteServicesModule,
-    SiteSettingsModule,
-  ],
+  imports: SITE_MODULES,
+  exports: SITE_MODULES,
 })
 export class SiteModule {}
+

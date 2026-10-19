@@ -8,8 +8,9 @@ export class SiteFaqsController {
   constructor(private readonly service: SiteFaqsService) {}
 
   @ApiOperation({
-    summary: 'Get all active FAQs for public site',
+    summary: 'site-get-all-faqs',
     operationId: 'site-get-all-faqs',
+    description: 'Get all active FAQs for public site',
   })
   @ApiQuery({ name: 'category', required: false, description: 'Filter by FAQ category (e.g. general)' })
   @ApiQuery({ name: 'search', required: false, description: 'Search question or answer' })
@@ -19,8 +20,9 @@ export class SiteFaqsController {
   }
 
   @ApiOperation({
-    summary: 'Get a single active FAQ by ID',
+    summary: 'site-get-faq-by-id',
     operationId: 'site-get-faq-by-id',
+    description: 'Get a single active FAQ by ID',
   })
   @ApiParam({ name: 'id', description: 'FAQ UUID' })
   @Get(':id')

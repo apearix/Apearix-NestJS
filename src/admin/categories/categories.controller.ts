@@ -9,31 +9,31 @@ import { UpdateCategoryDto } from './dto/update-categories.dto';
 export class CategoriesController {
   constructor(private readonly service: CategoriesService) {}
 
-  @ApiOperation({ operationId: 'create-categories' })
+  @ApiOperation({ summary: 'create-categories', operationId: 'create-categories' })
   @Post()
   create(@Body() dto: CreateCategoryDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-categories' })
+  @ApiOperation({ summary: 'get-all-categories', operationId: 'get-all-categories' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'bulk-status-categories' })
+  @ApiOperation({ summary: 'bulk-status-categories', operationId: 'bulk-status-categories' })
   @Post('bulk-status')
   bulkStatus(@Body() body: { ids: string[]; is_active: boolean }) {
     return this.service.bulkStatus(body.ids, body.is_active);
   }
 
-  @ApiOperation({ operationId: 'bulk-delete-categories' })
+  @ApiOperation({ summary: 'bulk-delete-categories', operationId: 'bulk-delete-categories' })
   @Post('bulk-delete')
   bulkDelete(@Body() body: { ids: string[] }) {
     return this.service.bulkDelete(body.ids);
   }
 
-  @ApiOperation({ operationId: 'bulk-import-categories' })
+  @ApiOperation({ summary: 'bulk-import-categories', operationId: 'bulk-import-categories' })
   @Post('bulk-import')
   bulkImport(@Body() body: any) {
     let items: any[] = [];
@@ -53,19 +53,19 @@ export class CategoriesController {
     return this.service.bulkImport(items);
   }
 
-  @ApiOperation({ operationId: 'get-categories-by-id' })
+  @ApiOperation({ summary: 'get-categories-by-id', operationId: 'get-categories-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(id);
   }
 
-  @ApiOperation({ operationId: 'update-categories' })
+  @ApiOperation({ summary: 'update-categories', operationId: 'update-categories' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateCategoryDto) {
     return this.service.update(id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-categories' })
+  @ApiOperation({ summary: 'delete-categories', operationId: 'delete-categories' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);

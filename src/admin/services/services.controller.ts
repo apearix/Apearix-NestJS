@@ -9,31 +9,31 @@ import { UpdateServiceEntityDto } from './dto/update-services.dto';
 export class ServicesController {
   constructor(private readonly service: ServicesService) {}
 
-  @ApiOperation({ operationId: 'create-services' })
+  @ApiOperation({ summary: 'create-services', operationId: 'create-services' })
   @Post()
   create(@Body() dto: CreateServiceEntityDto) {
     return this.service.create(dto);
   }
 
-  @ApiOperation({ operationId: 'get-all-services' })
+  @ApiOperation({ summary: 'get-all-services', operationId: 'get-all-services' })
   @Get()
   findAll() {
     return this.service.findAll();
   }
 
-  @ApiOperation({ operationId: 'get-services-by-id' })
+  @ApiOperation({ summary: 'get-services-by-id', operationId: 'get-services-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
   }
 
-  @ApiOperation({ operationId: 'update-services' })
+  @ApiOperation({ summary: 'update-services', operationId: 'update-services' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateServiceEntityDto) {
     return this.service.update(+id, dto);
   }
 
-  @ApiOperation({ operationId: 'delete-services' })
+  @ApiOperation({ summary: 'delete-services', operationId: 'delete-services' })
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
