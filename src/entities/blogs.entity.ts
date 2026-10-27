@@ -51,7 +51,7 @@ export class Blog {
   status: BlogStatus;
 
   @Column({ type: 'uuid', nullable: true })
-  author_id: string;
+  author_id: string | null;
 
   @ManyToOne(() => User, { onDelete: 'RESTRICT', nullable: true })
   @JoinColumn({ name: 'author_id' })

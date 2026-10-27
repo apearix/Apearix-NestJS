@@ -57,7 +57,7 @@ export class BlogsService {
     const author_id = await this.resolveAuthorId(rawAuthorId);
 
     let published_at: Date | null = null;
-    const rawPublishedAt = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
+    const rawPublishedAt: any = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
     if (rawPublishedAt && typeof rawPublishedAt === 'string' && rawPublishedAt.trim() !== '') {
       const parsedDate = new Date(rawPublishedAt);
       published_at = isNaN(parsedDate.getTime()) ? null : parsedDate;
@@ -149,7 +149,7 @@ export class BlogsService {
     }
 
     let published_at = existing.published_at;
-    const rawPublishedAt = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
+    const rawPublishedAt: any = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
     if (rawPublishedAt !== undefined) {
       if (rawPublishedAt && typeof rawPublishedAt === 'string' && rawPublishedAt.trim() !== '') {
         const parsedDate = new Date(rawPublishedAt);

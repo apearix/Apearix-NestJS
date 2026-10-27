@@ -1408,7 +1408,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Blog"
+                  "type": "object"
                 }
               }
             }
@@ -3703,8 +3703,7 @@
             "type": "string"
           },
           "published_at": {
-            "type": "string",
-            "nullable": true
+            "type": "object"
           }
         }
       },
@@ -3764,8 +3763,7 @@
             "format": "uuid"
           },
           "published_at": {
-            "type": "string",
-            "nullable": true
+            "type": "object"
           },
           "meta_title": {
             "type": "string",
@@ -3790,92 +3788,6 @@
           "title",
           "slug",
           "content"
-        ]
-      },
-      "Blog": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "is_manual_slug": {
-            "type": "boolean"
-          },
-          "excerpt": {
-            "type": "string"
-          },
-          "content": {
-            "type": "string"
-          },
-          "featured_image": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "published",
-              "archived"
-            ]
-          },
-          "author_id": {
-            "type": "string"
-          },
-          "author": {
-            "$ref": "#/components/schemas/User"
-          },
-          "published_at": {
-            "format": "date-time",
-            "type": "string",
-            "nullable": true
-          },
-          "meta_title": {
-            "type": "string"
-          },
-          "meta_description": {
-            "type": "string"
-          },
-          "canonical_url": {
-            "type": "string"
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "deleted_at": {
-            "format": "date-time",
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "title",
-          "slug",
-          "is_manual_slug",
-          "excerpt",
-          "content",
-          "featured_image",
-          "status",
-          "author_id",
-          "author",
-          "published_at",
-          "meta_title",
-          "meta_description",
-          "canonical_url",
-          "created_at",
-          "updated_at",
-          "deleted_at"
         ]
       },
       "UpdateBlogDto": {

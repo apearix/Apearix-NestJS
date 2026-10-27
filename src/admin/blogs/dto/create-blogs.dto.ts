@@ -24,8 +24,7 @@ export class PublishingDto {
   author_id?: string;
 
   @IsOptional()
-  @IsString()
-  published_at?: string | null;
+  published_at?: string | Date | null;
 }
 
 export class SeoDto {
@@ -86,8 +85,7 @@ export class CreateBlogDto {
   author_id?: string;
 
   @IsOptional()
-  @IsDateString()
-  published_at?: string | null;
+  published_at?: string | Date | null;
 
   @IsOptional()
   @IsString()
