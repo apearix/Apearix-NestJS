@@ -88,6 +88,8 @@ async function bootstrap() {
     console.warn('Could not write swagger JSON files to disk:', msg);
   }
 
-  await app.listen(process.env.PORT || 3001);
+  const port = process.env.PORT || 3001;
+  await app.listen(port, '0.0.0.0');
+  console.log(`Server is running on port ${port}`);
 }
 bootstrap();
