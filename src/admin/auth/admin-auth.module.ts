@@ -9,7 +9,7 @@ import { AdminAuthService } from './admin-auth.service';
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({
-      secret: 'super-secret-apearix-key-2026',
+      secret: process.env.JWT_SECRET || 'super-secret-apearix-key-2026',
       signOptions: { expiresIn: '1d' },
     }),
   ],
