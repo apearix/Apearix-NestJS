@@ -2,7 +2,12 @@
 /dist
 /node_modules
 /build
-/src/storage*
+
+# Ignore uploaded static files in storage but keep TypeScript code
+/src/storage/*
+!/src/storage/*.ts
+!/src/storage/**/*.ts
+
 # TypeScript build cache
 *.tsbuildinfo
 
