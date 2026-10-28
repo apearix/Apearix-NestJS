@@ -20,7 +20,8 @@ async function bootstrap() {
     fs.mkdirSync(storagePath, { recursive: true });
   }
 
-  // Serve static storage files under /storage route
+  // Serve static storage files under /apearix/storage and /storage routes
+  app.use('/apearix/storage', express.static(storagePath));
   app.use('/storage', express.static(storagePath));
 
   // Enable Global Validation

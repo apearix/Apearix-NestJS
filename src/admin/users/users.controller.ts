@@ -12,30 +12,26 @@ import {
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiConsumes } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { memoryStorage } from 'multer';
 import { UsersService } from './users.service';
+import { StorageService } from '../../storage/storage.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiTags('Admin - Users')
 @Controller(['api/v1/admin/users', 'admin/users', 'users'])
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly storageService: StorageService,
+  ) {}
 
   @ApiOperation({ summary: 'upload-user-avatar', operationId: 'upload-user-avatar' })
   @ApiConsumes('multipart/form-data')
   @Post('upload')
   @UseInterceptors(
     FileInterceptor('file', {
-      storage: diskStorage({
-        destination: join(process.cwd(), 'src', 'storage'),
-        filename: (req: any, file: any, callback: (error: Error | null, filename: string) => void) => {
-          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-          const ext = extname(file.originalname);
-          callback(null, `avatar-${uniqueSuffix}${ext}`);
-        },
-      }),
+      storage: memoryStorage(),
       fileFilter: (req: any, file: any, callback: (error: Error | null, acceptFile: boolean) => void) => {
         if (!file.mimetype.match(/\/(jpg|jpeg|png|gif|webp|svg\+xml)$/)) {
           return callback(new BadRequestException('Only image files are allowed!'), false);
@@ -45,14 +41,15 @@ export class UsersController {
       limits: { fileSize: 5 * 1024 * 1024 },
     }),
   )
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
+    const result = await this.storageService.uploadFile(file, 'avatars');
     return {
       success: true,
-      url: `/api/proxy/storage/${file.filename}`,
-      filename: file.filename,
+      url: result.url,
+      filename: result.filename,
     };
   }
 

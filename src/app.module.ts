@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AdminModule } from './admin/admin.module';
 import { SiteModule } from './site/site.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { SiteModule } from './site/site.module';
         };
       },
     }),
+    StorageModule,
     AdminModule,
     SiteModule,
   ],
