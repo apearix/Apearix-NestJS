@@ -1,11 +1,6 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
-} from 'typeorm';
+import { Entity, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity } from './base.entity';
+import { User } from './user.entity';
 
 export enum PageStatus {
   DRAFT = 'draft',
@@ -14,20 +9,18 @@ export enum PageStatus {
 }
 
 @Entity('legal_pages')
-export class LegalPage {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class LegalPage extends BaseEntity {
   @Column({ length: 150 })
   title: string;
 
-  @Column({ unique: true, length: 150, nullable: true })
+  @Index()
+  @Column({ unique: true, length: 160 })
   slug: string;
 
-  // MediumText/LongText or Text depending on DB, HTML content can be large
   @Column({ type: 'text', nullable: true })
   content: string;
 
+  @Index()
   @Column({
     type: 'enum',
     enum: PageStatus,
@@ -35,21 +28,21 @@ export class LegalPage {
   })
   status: PageStatus;
 
+  // User Audit (Who last updated/created)
+  @Index()
+  @Column({ type: 'uuid', name: 'updated_by_id', nullable: true })
+  updated_by_id: string | null;
+
+  @ManyToOne(() => User, { onDelete: 'SET NULL', nullable: true })
+  @JoinColumn({ name: 'updated_by_id' })
+  updated_by: User | null;
+
   @Column({ name: 'meta_title', length: 100, nullable: true })
   meta_title: string;
 
   @Column({ name: 'meta_description', length: 255, nullable: true })
   meta_description: string;
 
-  @Column({ name: 'published_at', type: 'timestamp', nullable: true })
-  published_at: Date;
-
-  @CreateDateColumn({ name: 'created_at' })
-  created_at: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updated_at: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deleted_at: Date;
+  @Column({ name: 'published_at', type: 'timestamptz', nullable: true })
+  published_at: Date | null;
 }

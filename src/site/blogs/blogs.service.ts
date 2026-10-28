@@ -27,16 +27,28 @@ export class SiteBlogsService {
     };
   }
 
-  async findAllPublished(query: { search?: string; page?: number; limit?: number }) {
+  async findAllPublished(query: { search?: string; category?: string; page?: number; limit?: number }) {
     const qb = this.repo
       .createQueryBuilder('blog')
       .leftJoinAndSelect('blog.author', 'author')
+      .leftJoinAndSelect('blog.category', 'category')
       .where('blog.status = :status', { status: BlogStatus.PUBLISHED })
       .orderBy('COALESCE(blog.published_at, blog.created_at)', 'DESC');
 
     if (query.search && query.search.trim()) {
       const s = `%${query.search.trim()}%`;
       qb.andWhere('(blog.title ILIKE :s OR blog.excerpt ILIKE :s)', { s });
+    }
+
+    if (query.category && query.category.trim()) {
+      const cat = query.category.trim();
+      if (this.isValidUuid(cat)) {
+        qb.andWhere('blog.category_id = :catId', { catId: cat });
+      } else {
+        qb.andWhere('(LOWER(category.slug) = LOWER(:cat) OR LOWER(category.name) = LOWER(:cat))', {
+          cat,
+        });
+      }
     }
 
     if (query.page !== undefined && query.page > 0) {
@@ -75,7 +87,7 @@ export class SiteBlogsService {
 
     const item = await this.repo.findOne({
       where: whereCondition,
-      relations: { author: true },
+      relations: { author: true, category: true },
     });
 
     if (!item) {

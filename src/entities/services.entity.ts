@@ -1,31 +1,45 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Entity, Column, Index, ManyToOne, JoinColumn } from 'typeorm';
+import { BaseEntity } from './base.entity';
+import { Category } from './categories.entity';
 
 @Entity('services')
-export class ServiceEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+export class ServiceEntity extends BaseEntity {
+  @Column({ length: 150 })
   title: string;
 
-  @Column('text', { nullable: true })
+  @Index()
+  @Column({ length: 170, unique: true })
+  slug: string;
+
+  @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   icon: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ type: 'text', nullable: true })
+  featured_image: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Index()
+  @Column({ name: 'is_active', default: true })
+  is_active: boolean;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  // Category Link
+  @Index()
+  @Column({ type: 'uuid', name: 'category_id', nullable: true })
+  category_id: string | null;
+
+  @ManyToOne(() => Category, (category) => category.services, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category | null;
+
+  // SEO Fields
+  @Column({ name: 'meta_title', length: 100, nullable: true })
+  meta_title: string;
+
+  @Column({ name: 'meta_description', length: 255, nullable: true })
+  meta_description: string;
 }

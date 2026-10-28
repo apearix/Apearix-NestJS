@@ -13,16 +13,19 @@ export class SiteBlogsController {
     description: 'Get all published blogs for public site',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Search by title or excerpt' })
+  @ApiQuery({ name: 'category', required: false, description: 'Filter by Category Slug or ID' })
   @ApiQuery({ name: 'page', required: false, description: 'Page number (optional)' })
   @ApiQuery({ name: 'limit', required: false, description: 'Items per page (optional)' })
   @Get()
   findAll(
     @Query('search') search?: string,
+    @Query('category') category?: string,
     @Query('page') page?: string,
     @Query('limit') limit?: string,
   ) {
     return this.service.findAllPublished({
       search,
+      category,
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
     });

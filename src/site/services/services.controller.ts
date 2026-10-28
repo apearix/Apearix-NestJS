@@ -13,19 +13,23 @@ export class SiteServicesController {
     description: 'Get all active services for public site',
   })
   @ApiQuery({ name: 'search', required: false, description: 'Search by service title or description' })
+  @ApiQuery({ name: 'category', required: false, description: 'Category slug or ID' })
   @Get()
-  findAll(@Query('search') search?: string) {
-    return this.service.findAllActive({ search });
+  findAll(
+    @Query('search') search?: string,
+    @Query('category') category?: string,
+  ) {
+    return this.service.findAllActive({ search, category });
   }
 
   @ApiOperation({
-    summary: 'site-get-service-by-id',
-    operationId: 'site-get-service-by-id',
-    description: 'Get a single active service by ID',
+    summary: 'site-get-service-by-id-or-slug',
+    operationId: 'site-get-service-by-id-or-slug',
+    description: 'Get a single active service by ID or slug',
   })
-  @ApiParam({ name: 'id', description: 'Service ID' })
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOneActive(+id);
+  @ApiParam({ name: 'idOrSlug', description: 'Service ID or Slug' })
+  @Get(':idOrSlug')
+  findOne(@Param('idOrSlug') idOrSlug: string) {
+    return this.service.findOneActive(idOrSlug);
   }
 }

@@ -8,7 +8,6 @@ import {
   MaxLength,
   Matches,
   IsArray,
-  IsDateString,
   IsUUID,
 } from 'class-validator';
 import { Type } from 'class-transformer';
@@ -22,6 +21,10 @@ export class PublishingDto {
   @IsOptional()
   @IsString()
   author_id?: string;
+
+  @IsOptional()
+  @IsString()
+  category_id?: string;
 
   @IsOptional()
   published_at?: string | Date | null;
@@ -79,6 +82,10 @@ export class CreateBlogDto {
   @IsOptional()
   @IsEnum(BlogStatus)
   status?: BlogStatus;
+
+  @IsOptional()
+  @IsUUID('4', { message: 'category_id valid UUID honi chahiye' })
+  category_id?: string;
 
   @IsOptional()
   @IsUUID('4', { message: 'author_id valid UUID honi chahiye' })

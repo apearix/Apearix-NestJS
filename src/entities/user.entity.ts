@@ -1,13 +1,11 @@
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  Index,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { Role } from './role.entity';
 
 export enum UserStatus {
@@ -18,20 +16,19 @@ export enum UserStatus {
 }
 
 @Entity('users')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column()
+export class User extends BaseEntity {
+  @Column({ length: 100 })
   first_name: string;
 
-  @Column({ nullable: true })
+  @Column({ length: 100, nullable: true })
   last_name: string;
 
-  @Column({ unique: true })
+  @Index()
+  @Column({ unique: true, length: 150 })
   email: string;
 
-  @Column({ unique: true, nullable: true })
+  @Index()
+  @Column({ unique: true, length: 30, nullable: true })
   phone: string;
 
   @Column()
@@ -43,22 +40,18 @@ export class User {
   @Column({ type: 'date', nullable: true })
   dob: Date;
 
+  @Index()
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.ACTIVE })
   status: UserStatus;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   last_login_at: Date;
 
-  @ManyToOne(() => Role, (role) => role.users, { eager: true, nullable: false })
+  @Index()
+  @Column({ type: 'uuid', name: 'role_id' })
+  role_id: string;
+
+  @ManyToOne(() => Role, (role) => role.users, { onDelete: 'RESTRICT', nullable: false })
   @JoinColumn({ name: 'role_id' })
   role: Role;
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at: Date;
 }

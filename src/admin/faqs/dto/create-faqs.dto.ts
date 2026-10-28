@@ -1,4 +1,4 @@
-import { IsString, IsBoolean, IsOptional, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsBoolean, IsOptional, IsNumber, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateFaqDto {
   @IsNotEmpty()
@@ -10,8 +10,12 @@ export class CreateFaqDto {
   answer: string;
 
   @IsOptional()
+  @IsUUID('4', { message: 'category_id must be a valid UUID' })
+  category_id?: string;
+
+  @IsOptional()
   @IsString()
-  category?: string;
+  category?: string; // Fallback for legacy / raw category names
 
   @IsOptional()
   @IsNumber()

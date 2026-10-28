@@ -11,7 +11,7 @@ export class BlogsService {
 
   private sanitizeAuthor(blog: Blog): any {
     if (blog && blog.author) {
-      const { password, ...safeAuthor } = blog.author as any;
+      const { password: _password, ...safeAuthor } = blog.author as any;
       return { ...blog, author: safeAuthor };
     }
     return blog;
@@ -26,7 +26,6 @@ export class BlogsService {
       return null;
     }
 
-    // If frontend sends '1' or '2' (hardcoded dummy IDs from UI select option)
     if (trimmed === '1' || trimmed === '2') {
       const [adminUser] = await this.repo.manager.getRepository(User).find({
         take: 1,
@@ -55,6 +54,7 @@ export class BlogsService {
     const status = (dto.status || dto.publishing?.status || BlogStatus.DRAFT) as BlogStatus;
     const rawAuthorId = dto.author_id !== undefined ? dto.author_id : dto.publishing?.author_id;
     const author_id = await this.resolveAuthorId(rawAuthorId);
+    const category_id = dto.category_id || dto.publishing?.category_id || null;
 
     let published_at: Date | null = null;
     const rawPublishedAt: any = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
@@ -75,6 +75,7 @@ export class BlogsService {
       content: dto.content,
       featured_image: dto.featured_image ?? '',
       status,
+      category_id: category_id || undefined,
       author_id: author_id || undefined,
       published_at,
       meta_title: dto.meta_title ?? dto.seo?.meta_title ?? '',
@@ -85,14 +86,14 @@ export class BlogsService {
     const saved = await this.repo.save(blogData);
     const reloaded = await this.repo.findOne({
       where: { id: saved.id },
-      relations: { author: true },
+      relations: { author: true, category: true },
     });
     return this.sanitizeAuthor(reloaded || saved);
   }
 
   async findAll() {
     const items = await this.repo.find({
-      relations: { author: true },
+      relations: { author: true, category: true },
       order: { created_at: 'DESC' },
     });
     return items.map((item) => {
@@ -102,6 +103,7 @@ export class BlogsService {
         publishing: {
           status: item.status,
           author_id: item.author_id || (item.author ? item.author.id : null),
+          category_id: item.category_id || (item.category ? item.category.id : null),
           published_at: item.published_at,
         },
         seo: {
@@ -116,7 +118,7 @@ export class BlogsService {
   async findOne(id: string) {
     const item = await this.repo.findOne({
       where: { id },
-      relations: { author: true },
+      relations: { author: true, category: true },
     });
     if (!item) throw new NotFoundException('Blog not found');
     const safe = this.sanitizeAuthor(item);
@@ -125,6 +127,7 @@ export class BlogsService {
       publishing: {
         status: item.status,
         author_id: item.author_id || (item.author ? item.author.id : null),
+        category_id: item.category_id || (item.category ? item.category.id : null),
         published_at: item.published_at,
       },
       seo: {
@@ -136,7 +139,7 @@ export class BlogsService {
   }
 
   async update(id: string, dto: UpdateBlogDto) {
-    const existing = await this.repo.findOne({ where: { id }, relations: { author: true } });
+    const existing = await this.repo.findOne({ where: { id }, relations: { author: true, category: true } });
     if (!existing) throw new NotFoundException('Blog not found');
 
     const status = (dto.status || dto.publishing?.status || existing.status) as BlogStatus;
@@ -146,6 +149,12 @@ export class BlogsService {
     if (rawAuthorId !== undefined) {
       const resolved = await this.resolveAuthorId(rawAuthorId);
       author_id = resolved || existing.author_id;
+    }
+
+    const rawCategoryId = dto.category_id !== undefined ? dto.category_id : dto.publishing?.category_id;
+    let category_id = existing.category_id;
+    if (rawCategoryId !== undefined) {
+      category_id = rawCategoryId || null;
     }
 
     let published_at = existing.published_at;
@@ -164,6 +173,7 @@ export class BlogsService {
     }
 
     existing.author = undefined as any;
+    existing.category = undefined as any;
 
     const updatedData = this.repo.merge(existing, {
       title: dto.title ?? existing.title,
@@ -173,6 +183,7 @@ export class BlogsService {
       content: dto.content ?? existing.content,
       featured_image: dto.featured_image ?? existing.featured_image,
       status,
+      category_id,
       author_id: author_id || null,
       published_at,
       meta_title: dto.meta_title ?? dto.seo?.meta_title ?? existing.meta_title,
@@ -183,7 +194,7 @@ export class BlogsService {
     const saved = await this.repo.save(updatedData);
     const reloaded = await this.repo.findOne({
       where: { id: saved.id },
-      relations: { author: true },
+      relations: { author: true, category: true },
     });
     return this.sanitizeAuthor(reloaded || saved);
   }
@@ -256,6 +267,7 @@ export class BlogsService {
         : BlogStatus.DRAFT;
 
       const authorId = (item.author_id || item.publishing?.author_id || item.author || '').toString();
+      const categoryId = (item.category_id || item.publishing?.category_id || item.category || '').toString();
 
       const rawPubAt = item.published_at || item.publishing?.published_at;
       const publishedAt = rawPubAt
@@ -272,6 +284,7 @@ export class BlogsService {
         content: (item.content || item.description || title).toString(),
         featured_image: (item.featured_image || item.image || '').toString(),
         status: validStatus,
+        category_id: categoryId || undefined,
         author_id: authorId || undefined,
         published_at: publishedAt,
         meta_title: (item.meta_title || item.seo?.meta_title || title).toString().slice(0, 60),

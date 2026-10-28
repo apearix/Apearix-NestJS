@@ -1,38 +1,36 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
+  ManyToOne,
+  JoinColumn,
+  Index,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
+import { Category } from './categories.entity';
 
 @Entity('faqs')
-export class Faq {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ length: 300, nullable: true })
+export class Faq extends BaseEntity {
+  @Column({ length: 300 })
   question: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text' })
   answer: string;
 
-  @Column({ length: 50, nullable: true, default: 'general' })
-  category: string;
+  @Index()
+  @Column({ type: 'uuid', name: 'category_id', nullable: true })
+  category_id: string | null;
 
-  @Column({ type: 'int', default: 0, nullable: true })
+  @ManyToOne(() => Category, (category) => category.faqs, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category | null;
+
+  @Column({ type: 'int', default: 0 })
   order: number;
 
-  @Column({ name: 'is_active', default: true, nullable: true })
+  @Index()
+  @Column({ name: 'is_active', default: true })
   is_active: boolean;
-
-  @CreateDateColumn({ name: 'created_at' })
-  created_at: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updated_at: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deleted_at: Date;
 }

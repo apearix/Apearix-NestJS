@@ -1,15 +1,13 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  DeleteDateColumn,
   ManyToOne,
   JoinColumn,
   Index,
 } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
+import { Category } from './categories.entity';
 
 export enum BlogStatus {
   DRAFT = 'draft',
@@ -18,15 +16,12 @@ export enum BlogStatus {
 }
 
 @Entity('blogs')
-export class Blog {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export class Blog extends BaseEntity {
   @Column({ length: 200 })
   title: string;
 
   @Index()
-  @Column({ length: 220, unique: true, nullable: true })
+  @Column({ length: 220, unique: true })
   slug: string;
 
   @Column({ default: false })
@@ -50,33 +45,37 @@ export class Blog {
   })
   status: BlogStatus;
 
-  @Column({ type: 'uuid', nullable: true })
+  // Category Link
+  @Index()
+  @Column({ type: 'uuid', name: 'category_id', nullable: true })
+  category_id: string | null;
+
+  @ManyToOne(() => Category, (category) => category.blogs, {
+    onDelete: 'SET NULL',
+    nullable: true,
+  })
+  @JoinColumn({ name: 'category_id' })
+  category: Category | null;
+
+  // Author Link
+  @Index()
+  @Column({ type: 'uuid', name: 'author_id', nullable: true })
   author_id: string | null;
 
   @ManyToOne(() => User, { onDelete: 'RESTRICT', nullable: true })
   @JoinColumn({ name: 'author_id' })
-  author: User;
+  author: User | null;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ name: 'published_at', type: 'timestamptz', nullable: true })
   published_at: Date | null;
 
-  // SEO Fields (Normal columns are faster to index)
-  @Column({ length: 60, nullable: true })
+  // SEO Fields
+  @Column({ length: 100, nullable: true })
   meta_title: string;
 
-  @Column({ length: 160, nullable: true })
+  @Column({ length: 255, nullable: true })
   meta_description: string;
 
   @Column({ length: 500, nullable: true })
   canonical_url: string;
-
-  // Audit Timestamps (Consistent snake_case)
-  @CreateDateColumn({ name: 'created_at' })
-  created_at: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updated_at: Date;
-
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deleted_at: Date | null;
 }

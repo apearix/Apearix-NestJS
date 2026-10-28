@@ -41,11 +41,11 @@ export class AdminAuthService {
     throw new UnauthorizedException('Invalid credentials');
   }
 
-  forgotPassword(body: any) {
+  forgotPassword(_body: any) {
     return { success: true, message: 'Password reset link sent to email' };
   }
 
-  changePassword(body: any) {
+  changePassword(_body: any) {
     return { success: true, message: 'Password changed successfully' };
   }
 }

@@ -11,12 +11,28 @@ export class CategoryTypesService implements OnModuleInit {
 
   async onModuleInit() {
     try {
+      // Fix missing slugs
       const itemsWithoutSlug = await this.repo.find({ where: { slug: IsNull() } });
       for (const item of itemsWithoutSlug) {
         item.slug = this.generateSlug(item.name || item.id);
         await this.repo.save(item);
       }
-    } catch (e) {
+
+      // Seed default category types if not present
+      const defaultTypes = [
+        { name: 'Blog Category', slug: 'blogs', description: 'Categories for Blogs and Articles' },
+        { name: 'FAQ Category', slug: 'faqs', description: 'Categories for FAQs and Knowledge Base' },
+        { name: 'Product Category', slug: 'products', description: 'Categories for Products' },
+        { name: 'Service Category', slug: 'services', description: 'Categories for Services' },
+      ];
+
+      for (const def of defaultTypes) {
+        const exists = await this.repo.findOne({ where: { slug: def.slug } });
+        if (!exists) {
+          await this.repo.save(this.repo.create({ ...def, is_active: true }));
+        }
+      }
+    } catch (_e) {
       // Ignore initial boot errors if table is not yet created
     }
   }

@@ -24,18 +24,18 @@ export class ServicesController {
   @ApiOperation({ summary: 'get-services-by-id', operationId: 'get-services-by-id' })
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.service.findOne(+id);
+    return this.service.findOne(id);
   }
 
   @ApiOperation({ summary: 'update-services', operationId: 'update-services' })
   @Patch(':id')
   update(@Param('id') id: string, @Body() dto: UpdateServiceEntityDto) {
-    return this.service.update(+id, dto);
+    return this.service.update(id, dto);
   }
 
   @ApiOperation({ summary: 'delete-services', operationId: 'delete-services' })
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.service.remove(+id);
+    return this.service.remove(id);
   }
 }

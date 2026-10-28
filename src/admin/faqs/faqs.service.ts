@@ -10,23 +10,42 @@ export class FaqsService {
   constructor(@InjectRepository(Faq) private readonly repo: Repository<Faq>) {}
 
   async create(dto: CreateFaqDto) {
-    const faq = this.repo.create(dto);
+    const faq = this.repo.create({
+      question: dto.question,
+      answer: dto.answer,
+      category_id: dto.category_id || undefined,
+      order: dto.order !== undefined ? Number(dto.order) : 0,
+      is_active: dto.is_active !== undefined ? dto.is_active : true,
+    });
     return await this.repo.save(faq);
   }
 
   async findAll() {
-    return await this.repo.find({ order: { order: 'ASC', created_at: 'DESC' } });
+    return await this.repo.find({
+      relations: { category: true },
+      order: { order: 'ASC', created_at: 'DESC' },
+    });
   }
 
   async findOne(id: string) {
-    const item = await this.repo.findOne({ where: { id } });
+    const item = await this.repo.findOne({
+      where: { id },
+      relations: { category: true },
+    });
     if (!item) throw new NotFoundException('FAQ not found');
     return item;
   }
 
   async update(id: string, dto: UpdateFaqDto) {
     const item = await this.findOne(id);
-    Object.assign(item, dto);
+    if (dto.category_id !== undefined) {
+      item.category_id = dto.category_id || null;
+    }
+    if (dto.question !== undefined) item.question = dto.question;
+    if (dto.answer !== undefined) item.answer = dto.answer;
+    if (dto.order !== undefined) item.order = Number(dto.order);
+    if (dto.is_active !== undefined) item.is_active = dto.is_active;
+
     return await this.repo.save(item);
   }
 
@@ -61,7 +80,7 @@ export class FaqsService {
       const newFaq = this.repo.create({
         question: item.question,
         answer: item.answer,
-        category: item.category || 'general',
+        category_id: item.category_id || undefined,
         order: item.order !== undefined ? Number(item.order) : 0,
         is_active: item.is_active !== undefined ? Boolean(item.is_active) : true,
       });

@@ -1,23 +1,14 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, OneToMany, Index } from 'typeorm';
+import { BaseEntity } from './base.entity';
 import { User } from './user.entity';
 
 @Entity('roles')
-export class Role {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @Column({ unique: true })
+export class Role extends BaseEntity {
+  @Column({ unique: true, length: 50 })
   name: string;
 
-  @Column({ unique: true })
+  @Index()
+  @Column({ unique: true, length: 50 })
   slug: string;
 
   @Column({ nullable: true })
@@ -25,13 +16,4 @@ export class Role {
 
   @OneToMany(() => User, (user) => user.role)
   users: User[];
-
-  @CreateDateColumn()
-  created_at: Date;
-
-  @UpdateDateColumn()
-  updated_at: Date;
-
-  @DeleteDateColumn()
-  deleted_at: Date;
 }
