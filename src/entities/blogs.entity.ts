@@ -66,14 +66,14 @@ export class Blog extends BaseEntity {
   @JoinColumn({ name: 'author_id' })
   author: User | null;
 
-  @Column({ name: 'published_at', type: 'timestamptz', nullable: true })
+  @Column({ name: 'published_at', type: 'timestamp', nullable: true })
   published_at: Date | null;
 
   // SEO Fields
-  @Column({ length: 100, nullable: true })
+  @Column({ length: 60, nullable: true })
   meta_title: string;
 
-  @Column({ length: 255, nullable: true })
+  @Column({ length: 160, nullable: true })
   meta_description: string;
 
   @Column({ length: 500, nullable: true })

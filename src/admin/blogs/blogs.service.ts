@@ -96,10 +96,24 @@ export class BlogsService {
       relations: { author: true, category: true },
       order: { created_at: 'DESC' },
     });
+
+    const [firstUser] = await this.repo.manager.getRepository(User).find({
+      take: 1,
+      order: { created_at: 'ASC' },
+    });
+    const defaultAuthorName = firstUser
+      ? `${firstUser.first_name || ''} ${firstUser.last_name || ''}`.trim() || firstUser.email
+      : 'Dharmendra (Admin)';
+
     return items.map((item) => {
       const safe = this.sanitizeAuthor(item);
+      const authorName = item.author
+        ? `${item.author.first_name || ''} ${item.author.last_name || ''}`.trim() || item.author.email
+        : defaultAuthorName;
+
       return {
         ...safe,
+        author_name: authorName,
         publishing: {
           status: item.status,
           author_id: item.author_id || (item.author ? item.author.id : null),
@@ -122,8 +136,22 @@ export class BlogsService {
     });
     if (!item) throw new NotFoundException('Blog not found');
     const safe = this.sanitizeAuthor(item);
+
+    const [firstUser] = await this.repo.manager.getRepository(User).find({
+      take: 1,
+      order: { created_at: 'ASC' },
+    });
+    const defaultAuthorName = firstUser
+      ? `${firstUser.first_name || ''} ${firstUser.last_name || ''}`.trim() || firstUser.email
+      : 'Dharmendra (Admin)';
+
+    const authorName = item.author
+      ? `${item.author.first_name || ''} ${item.author.last_name || ''}`.trim() || item.author.email
+      : defaultAuthorName;
+
     return {
       ...safe,
+      author_name: authorName,
       publishing: {
         status: item.status,
         author_id: item.author_id || (item.author ? item.author.id : null),

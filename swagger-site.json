@@ -16,6 +16,15 @@
             }
           },
           {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Filter by Category Slug or ID",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "page",
             "required": false,
             "in": "query",
@@ -365,6 +374,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Category slug or ID",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -388,16 +406,16 @@
         ]
       }
     },
-    "/api/v1/products/{id}": {
+    "/api/v1/products/{idOrSlug}": {
       "get": {
-        "description": "Get a single active product by ID",
-        "operationId": "site-get-product-by-id",
+        "description": "Get a single active product by ID or slug",
+        "operationId": "site-get-product-by-id-or-slug",
         "parameters": [
           {
-            "name": "id",
+            "name": "idOrSlug",
             "required": true,
             "in": "path",
-            "description": "Product ID",
+            "description": "Product ID or Slug",
             "schema": {
               "type": "string"
             }
@@ -415,7 +433,7 @@
             }
           }
         },
-        "summary": "site-get-product-by-id",
+        "summary": "site-get-product-by-id-or-slug",
         "tags": [
           "Site - Products"
         ]
@@ -431,6 +449,15 @@
             "required": false,
             "in": "query",
             "description": "Search by service title or description",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "description": "Category slug or ID",
             "schema": {
               "type": "string"
             }
@@ -457,16 +484,16 @@
         ]
       }
     },
-    "/api/v1/services/{id}": {
+    "/api/v1/services/{idOrSlug}": {
       "get": {
-        "description": "Get a single active service by ID",
-        "operationId": "site-get-service-by-id",
+        "description": "Get a single active service by ID or slug",
+        "operationId": "site-get-service-by-id-or-slug",
         "parameters": [
           {
-            "name": "id",
+            "name": "idOrSlug",
             "required": true,
             "in": "path",
-            "description": "Service ID",
+            "description": "Service ID or Slug",
             "schema": {
               "type": "string"
             }
@@ -484,7 +511,7 @@
             }
           }
         },
-        "summary": "site-get-service-by-id",
+        "summary": "site-get-service-by-id-or-slug",
         "tags": [
           "Site - Services"
         ]
@@ -509,53 +536,175 @@
   },
   "info": {
     "title": "Apearix Public Site API",
-    "description": "Public APIs for website frontend without authentication.",
+    "description": "Lightweight REST endpoints consumed by the public web application",
     "version": "1.0",
     "contact": {}
   },
   "tags": [
     {
       "name": "Site - Blogs",
-      "description": "Public site blog endpoints"
-    },
-    {
-      "name": "Site - Categories",
-      "description": "Public site categories endpoints"
+      "description": "Public blog listings and articles"
     },
     {
       "name": "Site - Category Types",
-      "description": "Public site category types endpoints"
+      "description": "Public taxonomy domains"
+    },
+    {
+      "name": "Site - Categories",
+      "description": "Public hierarchical categories"
     },
     {
       "name": "Site - FAQs",
-      "description": "Public site FAQs endpoints"
+      "description": "Public FAQ knowledge base"
     },
     {
       "name": "Site - Pages",
-      "description": "Public site static and legal pages endpoints"
+      "description": "Public legal, terms, and custom pages"
     },
     {
       "name": "Site - Products",
-      "description": "Public site products endpoints"
+      "description": "Public product catalog"
     },
     {
       "name": "Site - Services",
-      "description": "Public site services endpoints"
+      "description": "Public services listings"
     },
     {
       "name": "Site - Settings",
-      "description": "Public site settings endpoints"
+      "description": "Public contact and configuration"
     }
   ],
   "servers": [],
   "components": {
     "schemas": {
-      "LegalPage": {
+      "Role": {
         "type": "object",
         "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            }
+          },
           "id": {
             "type": "string"
           },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "description",
+          "users",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "avatar": {
+            "type": "string"
+          },
+          "dob": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "active",
+              "inactive",
+              "suspended",
+              "blocked"
+            ],
+            "type": "string"
+          },
+          "last_login_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "role_id": {
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "first_name",
+          "last_name",
+          "email",
+          "phone",
+          "password",
+          "avatar",
+          "dob",
+          "status",
+          "last_login_at",
+          "role_id",
+          "role",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "LegalPage": {
+        "type": "object",
+        "properties": {
           "title": {
             "type": "string"
           },
@@ -573,6 +722,19 @@
             ],
             "type": "string"
           },
+          "updated_by_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "updated_by": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
           "meta_title": {
             "type": "string"
           },
@@ -581,6 +743,10 @@
           },
           "published_at": {
             "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
             "type": "string"
           },
           "created_at": {
@@ -593,18 +759,71 @@
           },
           "deleted_at": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
-          "id",
           "title",
           "slug",
           "content",
           "status",
+          "updated_by_id",
+          "updated_by",
           "meta_title",
           "meta_description",
           "published_at",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "CategoryType": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Category"
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "description",
+          "is_active",
+          "categories",
+          "id",
           "created_at",
           "updated_at",
           "deleted_at"
@@ -613,23 +832,33 @@
       "Faq": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "question": {
             "type": "string"
           },
           "answer": {
             "type": "string"
           },
+          "category_id": {
+            "type": "string",
+            "nullable": true
+          },
           "category": {
-            "type": "string"
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
           },
           "order": {
             "type": "number"
           },
           "is_active": {
             "type": "boolean"
+          },
+          "id": {
+            "type": "string"
           },
           "created_at": {
             "format": "date-time",
@@ -641,16 +870,278 @@
           },
           "deleted_at": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
-          "id",
           "question",
           "answer",
+          "category_id",
           "category",
           "order",
           "is_active",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "is_manual_slug": {
+            "type": "boolean"
+          },
+          "excerpt": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "featured_image": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "category_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
+          },
+          "author_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "author": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/User"
+              }
+            ]
+          },
+          "published_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "canonical_url": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "is_manual_slug",
+          "excerpt",
+          "content",
+          "featured_image",
+          "status",
+          "category_id",
+          "category",
+          "author_id",
+          "author",
+          "published_at",
+          "meta_title",
+          "meta_description",
+          "canonical_url",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "sku": {
+            "type": "string"
+          },
+          "image_or_thumbnail": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "category_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "name",
+          "slug",
+          "description",
+          "price",
+          "sku",
+          "image_or_thumbnail",
+          "is_active",
+          "category_id",
+          "category",
+          "meta_title",
+          "meta_description",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "ServiceEntity": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "featured_image": {
+            "type": "string"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "category_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "category": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
+          },
+          "meta_title": {
+            "type": "string"
+          },
+          "meta_description": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "description",
+          "icon",
+          "featured_image",
+          "is_active",
+          "category_id",
+          "category",
+          "meta_title",
+          "meta_description",
+          "id",
           "created_at",
           "updated_at",
           "deleted_at"
@@ -659,9 +1150,6 @@
       "Category": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "name": {
             "type": "string"
           },
@@ -681,16 +1169,30 @@
             "type": "boolean"
           },
           "category_type_id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "category_type": {
-            "$ref": "#/components/schemas/CategoryType"
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/CategoryType"
+              }
+            ]
           },
           "parent_id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "parent": {
-            "$ref": "#/components/schemas/Category"
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Category"
+              }
+            ]
           },
           "children": {
             "type": "array",
@@ -698,10 +1200,37 @@
               "$ref": "#/components/schemas/Category"
             }
           },
+          "faqs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Faq"
+            }
+          },
+          "blogs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Blog"
+            }
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Product"
+            }
+          },
+          "services": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ServiceEntity"
+            }
+          },
           "meta_title": {
             "type": "string"
           },
           "meta_description": {
+            "type": "string"
+          },
+          "id": {
             "type": "string"
           },
           "created_at": {
@@ -714,11 +1243,11 @@
           },
           "deleted_at": {
             "format": "date-time",
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
-          "id",
           "name",
           "slug",
           "description",
@@ -730,134 +1259,16 @@
           "parent_id",
           "parent",
           "children",
+          "faqs",
+          "blogs",
+          "products",
+          "services",
           "meta_title",
           "meta_description",
+          "id",
           "created_at",
           "updated_at",
           "deleted_at"
-        ]
-      },
-      "CategoryType": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "is_active": {
-            "type": "boolean"
-          },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Category"
-            }
-          },
-          "created_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updated_at": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "deleted_at": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "description",
-          "is_active",
-          "categories",
-          "created_at",
-          "updated_at",
-          "deleted_at"
-        ]
-      },
-      "Product": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "price": {
-            "type": "number"
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "description",
-          "price",
-          "isActive",
-          "createdAt",
-          "updatedAt"
-        ]
-      },
-      "ServiceEntity": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string"
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "title",
-          "description",
-          "icon",
-          "isActive",
-          "createdAt",
-          "updatedAt"
         ]
       }
     }

@@ -17,18 +17,18 @@ export enum UserStatus {
 
 @Entity('users')
 export class User extends BaseEntity {
-  @Column({ length: 100 })
+  @Column()
   first_name: string;
 
-  @Column({ length: 100, nullable: true })
+  @Column({ nullable: true })
   last_name: string;
 
   @Index()
-  @Column({ unique: true, length: 150 })
+  @Column({ unique: true })
   email: string;
 
   @Index()
-  @Column({ unique: true, length: 30, nullable: true })
+  @Column({ unique: true, nullable: true })
   phone: string;
 
   @Column()
@@ -44,7 +44,7 @@ export class User extends BaseEntity {
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.ACTIVE })
   status: UserStatus;
 
-  @Column({ type: 'timestamptz', nullable: true })
+  @Column({ type: 'timestamp', nullable: true })
   last_login_at: Date;
 
   @Index()

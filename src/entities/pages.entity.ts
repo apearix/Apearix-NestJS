@@ -14,7 +14,7 @@ export class LegalPage extends BaseEntity {
   title: string;
 
   @Index()
-  @Column({ unique: true, length: 160 })
+  @Column({ unique: true, length: 150 })
   slug: string;
 
   @Column({ type: 'text', nullable: true })
@@ -43,6 +43,6 @@ export class LegalPage extends BaseEntity {
   @Column({ name: 'meta_description', length: 255, nullable: true })
   meta_description: string;
 
-  @Column({ name: 'published_at', type: 'timestamptz', nullable: true })
+  @Column({ name: 'published_at', type: 'timestamp', nullable: true })
   published_at: Date | null;
 }
