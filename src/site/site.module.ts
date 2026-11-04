@@ -7,6 +7,7 @@ import { SiteCategoryTypesModule } from './category-types/category-types.module'
 import { SiteProductsModule } from './products/products.module';
 import { SiteServicesModule } from './services/services.module';
 import { SiteSettingsModule } from './settings/settings.module';
+import { SiteCareersModule } from './careers/site-careers.module';
 
 export const SITE_MODULES = [
   SiteBlogsModule,
@@ -17,6 +18,7 @@ export const SITE_MODULES = [
   SiteProductsModule,
   SiteServicesModule,
   SiteSettingsModule,
+  SiteCareersModule,
 ];
 
 @Module({
@@ -24,4 +26,3 @@ export const SITE_MODULES = [
   exports: SITE_MODULES,
 })
 export class SiteModule {}
-

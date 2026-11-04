@@ -13,6 +13,7 @@ import { ProductsModule } from './products/products.module';
 import { ServicesModule } from './services/services.module';
 import { SettingsModule } from './settings/settings.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { CareersModule } from './careers/careers.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { NotificationsModule } from './notifications/notifications.module';
     ServicesModule,
     SettingsModule,
     NotificationsModule,
+    CareersModule,
   ],
-  exports: [SettingsModule, NotificationsModule],
+  exports: [SettingsModule, NotificationsModule, CareersModule],
 })
 export class AdminModule {}

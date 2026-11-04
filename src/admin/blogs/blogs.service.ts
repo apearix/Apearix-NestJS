@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Blog, BlogStatus, User } from '../../entities';
+import { Blog, BlogStatus, User, Category } from '../../entities';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateBlogDto } from './dto/create-blogs.dto';
 import { UpdateBlogDto } from './dto/update-blogs.dto';
 
 @Injectable()
 export class BlogsService {
-  constructor(@InjectRepository(Blog) private readonly repo: Repository<Blog>) {}
+  constructor(@InjectRepository(Blog) private readonly repo: Repository<Blog>, private readonly eventEmitter: EventEmitter2) {}
 
   private sanitizeAuthor(blog: Blog): any {
     if (blog && blog.author) {
@@ -49,12 +50,38 @@ export class BlogsService {
     });
     return userExists ? userExists.id : null;
   }
+  private async resolveCategoryId(categoryId?: string | null): Promise<string | null> {
+    if (!categoryId || typeof categoryId !== 'string') {
+      return null;
+    }
+    const trimmed = categoryId.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(trimmed);
+    if (isUuid) {
+      const catExists = await this.repo.manager.getRepository(Category).findOne({
+        where: { id: trimmed },
+        select: { id: true },
+      });
+      if (catExists) return catExists.id;
+    }
+
+    const catByName = await this.repo.manager.getRepository(Category).findOne({
+      where: [{ slug: trimmed }, { name: trimmed }],
+      select: { id: true },
+    });
+    return catByName ? catByName.id : null;
+  }
+
 
   async create(dto: CreateBlogDto) {
     const status = (dto.status || dto.publishing?.status || BlogStatus.DRAFT) as BlogStatus;
     const rawAuthorId = dto.author_id !== undefined ? dto.author_id : dto.publishing?.author_id;
     const author_id = await this.resolveAuthorId(rawAuthorId);
-    const category_id = dto.category_id || dto.publishing?.category_id || null;
+    const rawCategoryId = dto.category_id || dto.publishing?.category_id || null;
+    const category_id = await this.resolveCategoryId(rawCategoryId);
 
     let published_at: Date | null = null;
     const rawPublishedAt: any = dto.published_at !== undefined ? dto.published_at : dto.publishing?.published_at;
@@ -88,7 +115,9 @@ export class BlogsService {
       where: { id: saved.id },
       relations: { author: true, category: true },
     });
-    return this.sanitizeAuthor(reloaded || saved);
+    const sanitized = this.sanitizeAuthor(reloaded || saved);
+    // this.eventEmitter?.emit('blog.created', { blog: sanitized });
+    return sanitized;
   }
 
   async findAll() {
@@ -182,7 +211,7 @@ export class BlogsService {
     const rawCategoryId = dto.category_id !== undefined ? dto.category_id : dto.publishing?.category_id;
     let category_id = existing.category_id;
     if (rawCategoryId !== undefined) {
-      category_id = rawCategoryId || null;
+      category_id = (await this.resolveCategoryId(rawCategoryId)) || null;
     }
 
     let published_at = existing.published_at;
@@ -294,8 +323,11 @@ export class BlogsService {
         ? (statusStr as BlogStatus)
         : BlogStatus.DRAFT;
 
-      const authorId = (item.author_id || item.publishing?.author_id || item.author || '').toString();
-      const categoryId = (item.category_id || item.publishing?.category_id || item.category || '').toString();
+      const rawAuthorId = item.author_id !== undefined ? item.author_id : (item.publishing?.author_id || item.author);
+      const author_id = await this.resolveAuthorId(rawAuthorId ? String(rawAuthorId) : undefined);
+
+      const rawCategoryId = item.category_id !== undefined ? item.category_id : (item.publishing?.category_id || item.category);
+      const category_id = await this.resolveCategoryId(rawCategoryId ? String(rawCategoryId) : undefined);
 
       const rawPubAt = item.published_at || item.publishing?.published_at;
       const publishedAt = rawPubAt
@@ -312,8 +344,8 @@ export class BlogsService {
         content: (item.content || item.description || title).toString(),
         featured_image: (item.featured_image || item.image || '').toString(),
         status: validStatus,
-        category_id: categoryId || undefined,
-        author_id: authorId || undefined,
+        category_id: category_id || undefined,
+        author_id: author_id || undefined,
         published_at: publishedAt,
         meta_title: (item.meta_title || item.seo?.meta_title || title).toString().slice(0, 60),
         meta_description: (item.meta_description || item.seo?.meta_description || item.excerpt || '').toString().slice(0, 160),

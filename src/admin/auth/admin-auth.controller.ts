@@ -1,5 +1,5 @@
 import { ApiOperation, ApiTags, ApiBody } from '@nestjs/swagger';
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req } from '@nestjs/common';
 import { AdminAuthService } from './admin-auth.service';
 import { LoginAdminDto, ForgotPasswordDto, ChangePasswordDto } from './dto/admin-auth.dto';
 
@@ -11,8 +11,10 @@ export class AdminAuthController {
   @ApiOperation({ summary: 'admin-login', operationId: 'login-admin' })
   @ApiBody({ type: LoginAdminDto })
   @Post('login')
-  login(@Body() body: LoginAdminDto) {
-    return this.authService.login(body);
+  login(@Body() body: LoginAdminDto, @Req() req: any) {
+    const ip = req?.headers?.['x-forwarded-for'] || req?.socket?.remoteAddress || '127.0.0.1';
+    const userAgent = req?.headers?.['user-agent'] || 'Browser Client';
+    return this.authService.login(body, ip, userAgent);
   }
 
   @ApiOperation({ summary: 'admin-logout', operationId: 'logout-admin' })

@@ -8,7 +8,10 @@ import {
   Param,
   Query,
   Body,
+  Sse,
+  MessageEvent,
 } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { NotificationsService, NotificationItem } from './notifications.service';
 
 @ApiTags('Admin - Notifications')
@@ -16,18 +19,42 @@ import { NotificationsService, NotificationItem } from './notifications.service'
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
-  @ApiOperation({ summary: 'List admin notifications', operationId: 'get-admin-notifications' })
+  @ApiOperation({ summary: 'Real-time Server-Sent Events stream for live notifications', operationId: 'stream-notifications' })
+  @Sse('stream')
+  streamNotifications(): Observable<MessageEvent> {
+    return this.notificationsService.getEventStream();
+  }
+
+  @ApiOperation({ summary: 'Get total unread notification count', operationId: 'get-unread-count' })
+  @Get('unread-count')
+  getUnreadCount() {
+    return this.notificationsService.getUnreadCount();
+  }
+
+  @ApiOperation({ summary: 'List admin notifications with pagination and search', operationId: 'get-admin-notifications' })
   @ApiQuery({ name: 'category', required: false })
   @ApiQuery({ name: 'unreadOnly', required: false, type: Boolean })
+  @ApiQuery({ name: 'search', required: false })
+  @ApiQuery({ name: 'sortBy', required: false, enum: ['newest', 'oldest', 'unread', 'priority'] })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
   @Get()
   findAll(
     @Query('category') category?: string,
     @Query('unreadOnly') unreadOnly?: string,
+    @Query('search') search?: string,
+    @Query('sortBy') sortBy?: 'newest' | 'oldest' | 'unread' | 'priority',
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
   ) {
-    return this.notificationsService.findAll(
+    return this.notificationsService.findAll({
       category,
-      unreadOnly === 'true' || unreadOnly === '1',
-    );
+      unreadOnly: unreadOnly === 'true' || unreadOnly === '1',
+      search,
+      sortBy,
+      page: page ? parseInt(page, 10) : undefined,
+      limit: limit ? parseInt(limit, 10) : undefined,
+    });
   }
 
   @ApiOperation({ summary: 'Mark all notifications as read', operationId: 'mark-all-notifications-read' })
@@ -42,7 +69,7 @@ export class NotificationsController {
     return this.notificationsService.clearAll();
   }
 
-  @ApiOperation({ summary: 'Simulate live notification event', operationId: 'simulate-live-notification' })
+  @ApiOperation({ summary: 'Simulate live notification event (persisted in DB + live SSE)', operationId: 'simulate-live-notification' })
   @Post('simulate')
   simulateLive(@Body() body: Partial<NotificationItem>) {
     return this.notificationsService.simulateLive(body);

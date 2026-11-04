@@ -4,6 +4,7 @@ import { Repository, In } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User, UserStatus, Role } from '../../entities';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -13,6 +14,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Role)
     private readonly roleRepository: Repository<Role>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   private isValidUuid(id: string): boolean {
@@ -94,6 +96,7 @@ export class UsersService {
 
     const savedUser = await this.userRepository.save((newUser as unknown) as User);
     const { password: _, ...result } = savedUser;
+    this.eventEmitter.emit('user.created', { user: result });
     return result;
   }
 

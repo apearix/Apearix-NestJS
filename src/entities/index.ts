@@ -8,3 +8,6 @@ export * from './faqs.entity';
 export * from './pages.entity';
 export * from './products.entity';
 export * from './services.entity';
+export * from './jobs.entity';
+export * from './job-applications.entity';
+export * from './notification.entity';

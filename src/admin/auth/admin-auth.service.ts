@@ -2,6 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { User } from '../../entities';
 
 @Injectable()
@@ -10,9 +11,10 @@ export class AdminAuthService {
     private readonly jwtService: JwtService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async login(body: any) {
+  async login(body: any, clientIp: string = '127.0.0.1', userAgent?: string) {
     const { email, password } = body;
     if (email === 'admin@apearix.com' && password === 'admin123') {
       const dbUser = await this.userRepository.findOne({
@@ -37,6 +39,14 @@ export class AdminAuthService {
         user: payload,
       };
     }
+
+    // Trigger security notification on failed attempt
+    this.eventEmitter.emit('auth.suspicious_login', {
+      email: email || 'unknown@user.com',
+      ip: clientIp || '127.0.0.1',
+      browser: userAgent || 'Browser Client',
+      reason: 'Failed password verification',
+    });
 
     throw new UnauthorizedException('Invalid credentials');
   }
