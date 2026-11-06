@@ -532,6 +532,119 @@
           "Site - Settings"
         ]
       }
+    },
+    "/api/v1/site/careers": {
+      "get": {
+        "operationId": "get-all-published-jobs",
+        "parameters": [
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "department",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "job_type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "workplace_type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "summary": "get-all-published-jobs",
+        "tags": [
+          "Site - Careers"
+        ]
+      }
+    },
+    "/api/v1/site/careers/{slug}": {
+      "get": {
+        "operationId": "get-published-job-by-slug",
+        "parameters": [
+          {
+            "name": "slug",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          }
+        },
+        "summary": "get-published-job-by-slug",
+        "tags": [
+          "Site - Careers"
+        ]
+      }
+    },
+    "/api/v1/site/careers/{id}/apply": {
+      "post": {
+        "operationId": "apply-for-job",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplyJobDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "apply-for-job",
+        "tags": [
+          "Site - Careers"
+        ]
+      }
     }
   },
   "info": {
@@ -1269,6 +1382,312 @@
           "created_at",
           "updated_at",
           "deleted_at"
+        ]
+      },
+      "Job": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "department": {
+            "type": "string"
+          },
+          "job_type": {
+            "enum": [
+              "Full-Time",
+              "Part-Time",
+              "Contract",
+              "Internship"
+            ],
+            "type": "string"
+          },
+          "workplace_type": {
+            "enum": [
+              "Remote",
+              "Hybrid",
+              "On-Site"
+            ],
+            "type": "string"
+          },
+          "location": {
+            "type": "string"
+          },
+          "experience_level": {
+            "type": "string"
+          },
+          "salary_min": {
+            "type": "number",
+            "nullable": true
+          },
+          "salary_max": {
+            "type": "number",
+            "nullable": true
+          },
+          "salary_currency": {
+            "type": "string"
+          },
+          "is_salary_disclosed": {
+            "type": "boolean"
+          },
+          "overview": {
+            "type": "string"
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "benefits": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "published",
+              "closed",
+              "archived"
+            ],
+            "type": "string"
+          },
+          "is_featured": {
+            "type": "boolean"
+          },
+          "order": {
+            "type": "number"
+          },
+          "views_count": {
+            "type": "number"
+          },
+          "deadline": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "applications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JobApplication"
+            }
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "title",
+          "slug",
+          "department",
+          "job_type",
+          "workplace_type",
+          "location",
+          "experience_level",
+          "salary_min",
+          "salary_max",
+          "salary_currency",
+          "is_salary_disclosed",
+          "overview",
+          "responsibilities",
+          "requirements",
+          "benefits",
+          "status",
+          "is_featured",
+          "order",
+          "views_count",
+          "deadline",
+          "applications",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "JobApplication": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "job": {
+            "$ref": "#/components/schemas/Job"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "resume_url": {
+            "type": "string"
+          },
+          "resume_filename": {
+            "type": "string"
+          },
+          "portfolio_url": {
+            "type": "string"
+          },
+          "linkedin_url": {
+            "type": "string"
+          },
+          "github_url": {
+            "type": "string"
+          },
+          "cover_letter": {
+            "type": "string"
+          },
+          "current_ctc": {
+            "type": "string"
+          },
+          "expected_ctc": {
+            "type": "string"
+          },
+          "notice_period": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "applied",
+              "reviewing",
+              "shortlisted",
+              "interviewing",
+              "offered",
+              "hired",
+              "rejected"
+            ],
+            "type": "string"
+          },
+          "rating": {
+            "type": "number"
+          },
+          "admin_notes": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "deleted_at": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "job_id",
+          "job",
+          "first_name",
+          "last_name",
+          "email",
+          "phone",
+          "resume_url",
+          "resume_filename",
+          "portfolio_url",
+          "linkedin_url",
+          "github_url",
+          "cover_letter",
+          "current_ctc",
+          "expected_ctc",
+          "notice_period",
+          "status",
+          "rating",
+          "admin_notes",
+          "id",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ]
+      },
+      "ApplyJobDto": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "last_name": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "email": {
+            "type": "string",
+            "maxLength": 160,
+            "format": "email"
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "portfolio_url": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "linkedin_url": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "github_url": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "cover_letter": {
+            "type": "string"
+          },
+          "current_ctc": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "expected_ctc": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "notice_period": {
+            "type": "string",
+            "maxLength": 50
+          }
+        },
+        "required": [
+          "first_name",
+          "last_name",
+          "email"
         ]
       }
     }
