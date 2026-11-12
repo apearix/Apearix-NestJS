@@ -3318,7 +3318,7 @@
         ]
       }
     },
-    "/w45": {
+    "/api/v1/blogs": {
       "get": {
         "description": "Get all published blogs for public site",
         "operationId": "site-get-all-blogs",
@@ -3378,7 +3378,7 @@
         ]
       }
     },
-    "/w45/{slugOrId}": {
+    "/api/v1/blogs/{slugOrId}": {
       "get": {
         "description": "Get a single published blog by slug or ID",
         "operationId": "site-get-blog-by-slug",
